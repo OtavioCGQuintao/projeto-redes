@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { opcoes } from "./data";
 import TypeThing from "./TypeThing";
+import type { Specifications } from "./interfaces"
 
 interface Escolha {
   id: number;
   categoria: string;
   subType: string;
+  specifications: Specifications;
 }
 
 function Builder() {
