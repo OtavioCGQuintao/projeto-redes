@@ -3,6 +3,7 @@ import SubTypeThing from "./SubTypeThing";
 import type { Specifications } from "./interfaces";
 import { opcoes } from "./data"
 import { Specs } from "./Specifications";
+import Accordion from "./Accordion"
 
 interface Escolha {
   id: number;
@@ -40,7 +41,7 @@ function TypeThing({ type, escolhas: escolhasExternas, setEscolhas: setEscolhasE
     } else {
       setEscolhas((prev) => [
         ...prev,
-        { id: Date.now(), categoria: categoriaSelecionada, subType, specifications : item?.specifications},
+        { id: Date.now(), categoria: categoriaSelecionada, subType, specifications: item?.specifications },
       ]);
     }
     setAdicionando(false);
@@ -66,7 +67,7 @@ function TypeThing({ type, escolhas: escolhasExternas, setEscolhas: setEscolhasE
   return (
     <>
       {escolhas.length > 0 && (
-        <div>
+        <Accordion titulo="Equipamentos escolhidos">
           <h3>Equipamentos escolhidos:</h3>
           {escolhas.map((e) => (
             <div key={e.id}>
@@ -74,9 +75,9 @@ function TypeThing({ type, escolhas: escolhasExternas, setEscolhas: setEscolhasE
               <Specs specs={e.specifications}/>
               <button type="button" onClick={() => handleEditar(e)}>Editar</button>
               <button type="button" onClick={() => handleRemover(e.id)}>Remover</button>
-            </div>
+              </div>
           ))}
-        </div>
+          </Accordion>
       )}
 
       {adicionando ? (
@@ -87,19 +88,19 @@ function TypeThing({ type, escolhas: escolhasExternas, setEscolhas: setEscolhasE
             <>
               <p>Escolha a categoria:</p>
               {type
-              .filter((t) => !categoriasUsadas.includes(t) || t === categoriaSelecionada)
-              .map((t) => (
-                <div key={t}>
-                  <input
-                    type="radio"
-                    id={t}
-                    name="categoria"
-                    value={t}
-                    onChange={() => setCategoriaSelecionada(t)}
-                  />
-                  <label htmlFor={t}>{t}</label>
-                </div>
-              ))}
+                .filter((t) => !categoriasUsadas.includes(t) || t === categoriaSelecionada)
+                .map((t) => (
+                  <div key={t}>
+                    <input
+                      type="radio"
+                      id={t}
+                      name="categoria"
+                      value={t}
+                      onChange={() => setCategoriaSelecionada(t)}
+                    />
+                    <label htmlFor={t}>{t}</label>
+                  </div>
+                ))}
             </>
           ) : (
             <>
