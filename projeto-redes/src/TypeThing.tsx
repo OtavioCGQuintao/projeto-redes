@@ -3,14 +3,8 @@ import SubTypeThing from "./SubTypeThing";
 import type { Specifications } from "./interfaces";
 import { opcoes } from "./data"
 import { Specs } from "./Specifications";
-import Accordion from "./Accordion"
-
-interface Escolha {
-  id: number;
-  categoria: string;
-  subType: string;
-  specifications: Specifications;
-}
+import Accordion from "./Accordion";
+import type { Escolha } from "./interfaces";
 
 interface ButtonProps {
   type: string[];

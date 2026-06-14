@@ -11,14 +11,33 @@ export const opcoes: Record<string, SubType[]> = {
     { subType: "Cat8", specifications: { type: "twisted-pair-cable", speed: "40Gbps", maxDistance: "30m", bandwidth: "2.000MHz" } },
   ],
   "Fibra Óptica": [
-    { subType: "OM1", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "62,5/125µm", maxDistance: "275m", waveLength: ["850nm", "1300nm"], bandwidth: ["160 MHz-km", "500 MHz-km"], lossForKilometer: ["3,5 dB/km", "1,5 dB/km"], couplingLoss: "0,75 dB" } },
-    { subType: "OM2", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", maxDistance: "550m", waveLength: ["850nm", "1300nm"], bandwidth: ["500 MHz-km", "500 MHz-km"], lossForKilometer: ["3,5 dB/km", "1,5 dB/km"], couplingLoss: "0,75 dB" } },
-    { subType: "OM3", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", maxDistance: "300m", waveLength: ["850nm"], bandwidth: ["2000 MHz-km"], lossForKilometer: ["3,5 dB/km"], couplingLoss: "0,75 dB" } },
-    { subType: "OM4", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", maxDistance: "550m", waveLength: ["850nm"], bandwidth: ["3500 MHz-km"], lossForKilometer: ["3,5 dB/km"], couplingLoss: "0,75 dB" } },
-    { subType: "OM5", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", maxDistance: "150m", waveLength: ["850nm", "953nm"], bandwidth: [""], lossForKilometer: ["3,5 dB/km"], couplingLoss: "0,75 dB" } },
-    { subType: "OS1", specifications: { type: "fiber-optic", covered: "Monomodo", coreSize: "9/125µm", maxDistance: "10km", waveLength: ["1310nm", "1550nm"], bandwidth: ["N/A"], lossForKilometer: ["1,0 dB/km", "1,0 dB/km"], couplingLoss: "0,75 dB" } },
-    { subType: "OS2", specifications: { type: "fiber-optic", covered: "Monomodo", coreSize: "9/125µm", maxDistance: "40km", waveLength: ["1310nm", "1550nm"], bandwidth: ["N/A"], lossForKilometer: ["0,5 dB/km", "0,5 dB/km"], couplingLoss: "0,75 dB" } },
-  ],
+  { subType: "OM1 - 1G SX (850nm)",  specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "62,5/125µm", waveLength: "850nm",  transceiver: "1000BASE-SX",  speed: "1 Gbps",   maxDistance: "275m",  bandwidth: "200 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM1 - 1G LX (1300nm)", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "62,5/125µm", waveLength: "1300nm", transceiver: "1000BASE-LX",  speed: "1 Gbps",   maxDistance: "550m",  bandwidth: "500 MHz-km", lossForKilometer: "1,5 dB/km", couplingLoss: "0,75 dB" }},
+
+  { subType: "OM2 - 1G SX (850nm)",  specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm",  transceiver: "1000BASE-SX",  speed: "1 Gbps",   maxDistance: "550m",  bandwidth: "500 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM2 - 1G LX (1300nm)", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "1300nm", transceiver: "1000BASE-LX",  speed: "1 Gbps",   maxDistance: "550m",  bandwidth: "500 MHz-km", lossForKilometer: "1,5 dB/km", couplingLoss: "0,75 dB" }},
+
+  { subType: "OM3 - 10G SR (850nm)",  specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm", transceiver: "10GBASE-SR",  speed: "10 Gbps",  maxDistance: "300m",  bandwidth: "2000 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM3 - 25G SR (850nm)",  specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm", transceiver: "25GBASE-SR",  speed: "25 Gbps",  maxDistance: "70m",   bandwidth: "2000 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM3 - 40G SR4 (850nm)", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm", transceiver: "40GBASE-SR4", speed: "40 Gbps",  maxDistance: "100m",  bandwidth: "2000 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM3 - 100G SR4 (850nm)",specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm", transceiver: "100GBASE-SR4",speed: "100 Gbps", maxDistance: "100m",  bandwidth: "2000 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+
+  { subType: "OM4 - 10G SR (850nm)",  specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm", transceiver: "10GBASE-SR",  speed: "10 Gbps",  maxDistance: "550m",  bandwidth: "4700 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM4 - 25G SR (850nm)",  specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm", transceiver: "25GBASE-SR",  speed: "25 Gbps",  maxDistance: "100m",  bandwidth: "4700 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM4 - 40G SR4 (850nm)", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm", transceiver: "40GBASE-SR4", speed: "40 Gbps",  maxDistance: "150m",  bandwidth: "4700 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM4 - 100G SR4 (850nm)",specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850nm", transceiver: "100GBASE-SR4",speed: "100 Gbps", maxDistance: "150m",  bandwidth: "4700 MHz-km", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+
+  { subType: "OM5 - 40G SWDM4 (850-953nm)",  specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850-953nm", transceiver: "40G-SWDM4",   speed: "40 Gbps",  maxDistance: "150m", bandwidth: "4700 MHz-km (850nm) / 2470 MHz-km (953nm)", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OM5 - 100G SWDM4 (850-953nm)", specifications: { type: "fiber-optic", covered: "Multimodo", coreSize: "50/125µm", waveLength: "850-953nm", transceiver: "100G-SWDM4",  speed: "100 Gbps", maxDistance: "150m", bandwidth: "4700 MHz-km (850nm) / 2470 MHz-km (953nm)", lossForKilometer: "3,5 dB/km", couplingLoss: "0,75 dB" }},
+
+  { subType: "OS1 - 10G LX (1310nm)", specifications: { type: "fiber-optic", covered: "Monomodo", coreSize: "9/125µm", waveLength: "1310nm", transceiver: "10GBASE-LR", speed: "10 Gbps", maxDistance: "2km",  bandwidth: "N/A", lossForKilometer: "1,0 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OS1 - 10G ZR (1550nm)", specifications: { type: "fiber-optic", covered: "Monomodo", coreSize: "9/125µm", waveLength: "1550nm", transceiver: "10GBASE-ZR", speed: "10 Gbps", maxDistance: "2km",  bandwidth: "N/A", lossForKilometer: "1,0 dB/km", couplingLoss: "0,75 dB" }},
+
+  { subType: "OS2 - 10G LR (1310nm)",  specifications: { type: "fiber-optic", covered: "Monomodo", coreSize: "9/125µm", waveLength: "1310nm", transceiver: "10GBASE-LR",  speed: "10 Gbps",  maxDistance: "10km",  bandwidth: "N/A", lossForKilometer: "0,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OS2 - 100G LR4 (1310nm)",specifications: { type: "fiber-optic", covered: "Monomodo", coreSize: "9/125µm", waveLength: "1310nm", transceiver: "100GBASE-LR4",speed: "100 Gbps", maxDistance: "10km",  bandwidth: "N/A", lossForKilometer: "0,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OS2 - 10G ZR (1550nm)",  specifications: { type: "fiber-optic", covered: "Monomodo", coreSize: "9/125µm", waveLength: "1550nm", transceiver: "10GBASE-ZR",  speed: "10 Gbps",  maxDistance: "80km",  bandwidth: "N/A", lossForKilometer: "0,5 dB/km", couplingLoss: "0,75 dB" }},
+  { subType: "OS2 - 100G ER4 (1550nm)",specifications: { type: "fiber-optic", covered: "Monomodo", coreSize: "9/125µm", waveLength: "1550nm", transceiver: "100GBASE-ER4",speed: "100 Gbps", maxDistance: "40km",  bandwidth: "N/A", lossForKilometer: "0,5 dB/km", couplingLoss: "0,75 dB" }},
+],
   "DIO": [
     { subType: "DIO 12 portas", specifications: { type: "dio", entranceDoors: 6, exitDoors: 6, typeConector: ["LC", "SC"], limitOfCables: 12, loss: "1,7dB" }},
     { subType: "DIO 24 portas", specifications: { type: "dio", entranceDoors: 12, exitDoors: 12, typeConector: ["LC", "SC"], limitOfCables: 24, loss: "1,7dB" }},

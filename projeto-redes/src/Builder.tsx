@@ -2,13 +2,9 @@ import { useState } from "react";
 import { opcoes } from "./data";
 import TypeThing from "./TypeThing";
 import type { Specifications } from "./interfaces"
-
-interface Escolha {
-  id: number;
-  categoria: string;
-  subType: string;
-  specifications: Specifications;
-}
+import type { Escolha } from "./interfaces"
+import Accordion from "./Accordion"
+import GeneralForm from "./GeneralForm";
 
 function Builder() {
   const [floors, setFloors] = useState<number>(0);
@@ -17,9 +13,14 @@ function Builder() {
   const [checkBoxEscolhasCompartilhadas, setCheckBoxEscolhasCompartilhadas] = useState(false);
   const types = Object.keys(opcoes);
 
+
+
+
+
   if (confirmed) {
     return (
       <>
+      <GeneralForm></GeneralForm>
         {Array.from({ length: floors }, (_, i) => (
           <div key={i}>
             <h2>{i === 0 ? "S.E.Q" : `S.E.T ${i + 1}º Andar`}</h2> 
@@ -52,6 +53,7 @@ function Builder() {
 
   return (
     <>
+      <Accordion>
       <h2>Quantos andares o prédio possui?</h2>
       <h3>Certifique-se de que o número esteja correto!</h3>
       <br />
@@ -76,6 +78,7 @@ function Builder() {
       >
         Confirmar
       </button>
+      </Accordion>
     </>
   );
 }

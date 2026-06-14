@@ -15,12 +15,14 @@ export function Specs({ specs }: { specs: Specifications }) {
       return (
         <>
           <p><strong>Cobertura:</strong> {specs.covered}</p>
+          <p><strong>Velocidade:</strong> {specs.speed}</p>
           <p><strong>Tamanho do núcleo:</strong> {specs.coreSize}</p>
           <p><strong>Distância máxima:</strong> {specs.maxDistance}</p>
-          <p><strong>Comprimento de onda:</strong> {specs.waveLength.join(", ")}</p>
-          <p><strong>Largura de banda:</strong> {specs.bandwidth.join(", ")}</p>
-          <p><strong>Perda por km:</strong> {specs.lossForKilometer.join(", ")}</p>
+          <p><strong>Comprimento de onda:</strong> {specs.waveLength}</p>
+          <p><strong>Largura de banda:</strong> {specs.bandwidth}</p>
+          <p><strong>Perda por km:</strong> {specs.lossForKilometer}</p>
           <p><strong>Perda de acoplamento:</strong> {specs.couplingLoss}</p>
+          <p><strong>Transceiver usado:</strong> {specs.transceiver}</p>
         </>
       );
 
