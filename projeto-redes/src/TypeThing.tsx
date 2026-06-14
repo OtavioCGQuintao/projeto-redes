@@ -1,21 +1,26 @@
 import { useState } from "react";
 import SubTypeThing from "./SubTypeThing";
 
-interface ButtonProps {
-  type: string[];
-}
-
 interface Escolha {
   id: number;
   categoria: string;
   subType: string;
 }
 
-function TypeThing({ type }: ButtonProps) {
-  const [escolhas, setEscolhas] = useState<Escolha[]>([]);
+interface ButtonProps {
+  type: string[];
+  escolhas?: Escolha[];
+  setEscolhas?: React.Dispatch<React.SetStateAction<Escolha[]>>;
+}
+
+
+function TypeThing({ type, escolhas: escolhasExternas, setEscolhas: setEscolhasExternas }: ButtonProps) {
   const [adicionando, setAdicionando] = useState(false);
   const [editando, setEditando] = useState<number | null>(null);
   const [categoriaSelecionada, setCategoriaSelecionada] = useState("");
+  const [escolhasInternas, setEscolhasInternas] = useState<Escolha[]>([]);
+  const escolhas = escolhasExternas ?? escolhasInternas;
+  const setEscolhas = setEscolhasExternas ?? setEscolhasInternas;
   const categoriasUsadas = escolhas.map((e) => e.categoria)
 
   function handleSalvar(subType: string) {
