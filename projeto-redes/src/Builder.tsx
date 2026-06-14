@@ -13,7 +13,7 @@ function Builder() {
       <>
         {Array.from({ length: floors }, (_, i) => (
           <div key={i}>
-            <h2>Andar {i + 1}</h2>
+            <h2>{i === 0 ? "S.E.Q" : `S.E.T ${i + 1}º Andar`}</h2>
             <TypeThing type={types} />
           </div>
         ))}
