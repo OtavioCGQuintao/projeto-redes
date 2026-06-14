@@ -6,7 +6,7 @@ interface ButtonProps extends PropsWithChildren{
 }
 
 function Accordion({titulo, children} : ButtonProps){
-    const [visivel, setVisivel] = useState(true);
+    const [visivel, setVisivel] = useState(false);
     return(
         <>
         <div>
