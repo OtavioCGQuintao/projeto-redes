@@ -15,8 +15,13 @@ function Builder() {
   const [quantidadeComputadores, setQuantidadeComputadores] = useState(1);
   const [quantidadeCamera, setQuantidadeCamera] = useState(0);
   const [quantidadeTelefone, setQuantidadeTelefone] = useState(0);
-  const [cameraOuTelefone, setCameraOuTelefone] = useState(false);
-  const [velocidadeEsperada, setVelocidadeEsperada] = useState(10);
+  const [quantidadeAccessPoint, setQuantidadeAccessPoint] = useState(0);
+  const [quantidadeControladorDeAcesso, setQuantidadeControladorDeAcesso] = useState(0);
+  const [possuiCamera, setPossuiCamera] = useState(false);
+  const [possuiTelefone, setPossuiTelefone] = useState(false);
+  const [possuiAccessPoint, setPossuiAccessPoint] = useState(false);
+  const [possuiControladorDeAcesso, setPossuiControladorDeAcesso] = useState(false);
+  const [velocidadeEsperadaPorUsuario, setVelocidadeEsperadaPorUsuario] = useState(10);
   const [medidaMalhaHorizontal, setmedidaMalhaHorizonta] = useState(25);
   const [medidaPatchCord, setmedidaPatchCord] = useState(3);
   const [medidaPatchCable, setmedidaPatchCable] = useState(1);
@@ -39,30 +44,67 @@ function Builder() {
             placeholder={String(quantidadeComputadores)}
             min="1"
             onChange={(e) => setQuantidadeComputadores(Number(e.target.value))} /><br /> <br />
-          Tem câmeras ou telefones?
+          Tem câmeras?
           <input type="checkbox"
-            checked={cameraOuTelefone}
-            onChange={(e) => setCameraOuTelefone(e.target.checked)} /><br /> <br />
-          {cameraOuTelefone && (
+            checked={possuiCamera}
+            onChange={(e) => setPossuiCamera(e.target.checked)} /><br />
+          {possuiCamera && (
             <label>
-              Qual a quantidade total de telefones?
-              <input type="number"
-                min="1"
-                onChange={(e) => setQuantidadeTelefone(Number(e.target.value))}
-              /> <br /><br />
-              Qual a quantidade total de câmeras?
+              Qual a quantidade total de câmera(s)?
               <input type="number"
                 min="1"
                 onChange={(e) => setQuantidadeCamera(Number(e.target.value))}
-              /><br /><br />
+              /> <br /> <br />
             </label>
           )
           }
-
+          Tem telefones?
+          <input type="checkbox"
+            checked={possuiTelefone}
+            onChange={(e) => setPossuiTelefone(e.target.checked)} /><br />
+          {possuiTelefone && (
+            <label>
+              Qual a quantidade total de telefone(s)?
+              <input type="number"
+                min="1"
+                onChange={(e) => setQuantidadeTelefone(Number(e.target.value))}
+              /> <br /> <br />
+            </label>
+          )
+          }
+          Tem access points?
+          <input type="checkbox"
+            checked={possuiAccessPoint}
+            onChange={(e) => setPossuiAccessPoint(e.target.checked)} /><br />
+          {possuiAccessPoint && (
+            <label>
+              Qual a quantidade total de access point(s)?
+              <input type="number"
+                min="1"
+                onChange={(e) => setQuantidadeAccessPoint(Number(e.target.value))}
+              /> <br /><br />
+            </label>
+          )
+          }
+          Tem controladores de acesso?
+          <input type="checkbox"
+            checked={possuiControladorDeAcesso}
+            onChange={(e) => setPossuiControladorDeAcesso(e.target.checked)} />
+          {possuiControladorDeAcesso && (
+            <label>
+              Qual a quantidade total de controlador(es) de acesso?
+              <input type="number"
+                min="1"
+                onChange={(e) => setQuantidadeControladorDeAcesso(Number(e.target.value))}
+              /> 
+            </label>
+          )
+          }
+          <br/><br/>
           Qual a velocidade esperada? (Em GB)
           <input type="number"
-            placeholder={String(velocidadeEsperada)}
-            onChange={(e) => setVelocidadeEsperada(Number(e.target.value))}
+            placeholder={String(velocidadeEsperadaPorUsuario)}
+            onChange={(e) => setVelocidadeEsperadaPorUsuario(Number(e.target.value))}
           /> <br /> <br />
           Qual a medida padrão da Malha Horizontal? (Metros)
           <input type="number"
@@ -90,19 +132,172 @@ function Builder() {
               Número de computadores neste andar:
               <input type="number"
                 onChange={(e) => handleAndar(i, { computers: Number(e.target.value) })}
-              /> <br />
-              {cameraOuTelefone && (
+              /> <br /> <br />
+              {possuiCamera && (
                 <label>
                   Número de câmeras neste andar:
                   <input type="number"
                     onChange={(e) => handleAndar(i, { cameras: Number(e.target.value) })}
                   /> <br />
-                  Número de telefones neste andar:
-                  <input type="number"
-                    onChange={(e) => handleAndar(i, { phones: Number(e.target.value) })}
-                  /> <br /><br />
+                  Selecione a tecnologia da(s) câmera(s):
+                  <select onChange={(e) => handleAndar(i, { technologyCameras: String(e.target.value) })}>
+                    <option value="">Selecione</option>
+                    <option value="ip_sem_poe">IP sem PoE</option>
+                    <option value="ip_com_poe">IP com PoE</option>
+                    <option value="analogica_hd">Analógica HD </option>
+                    <option value="analogica_tradicional">Analógica Tradicional</option>
+                  </select> <br />
+                  {andar.technologyCameras === "ip_com_poe" && (
+                    <label>
+                      Qual o consumo total das câmeras? (Watts)
+                      <input type="number"
+                        onChange={(e) => handleAndar(i, { energyCameras: Number(e.target.value) })}
+                      />
+                    </label>
+                  )
+                  }
+                  <br /> <br />
                 </label>
               )}
+              {possuiTelefone && (
+                <label>
+                  Quantidade de telefones neste andar:
+                  <input type="number"
+                    onChange={(e) => handleAndar(i, { phones: Number(e.target.value) })}
+                  /> <br />
+                  Selecione a tecnologia do(s) telefone(s):
+                  <select onChange={(e) => handleAndar(i, { technologyPhones: String(e.target.value) })}>
+                    <option value="">Selecione</option>
+                    <option value="analogico">Analógico</option>
+                    <option value="voip">VoIP</option>
+                  </select> <br />
+                  {andar.technologyPhones === "voip" && (
+                    <>
+                      <label>
+                        Qual o consumo total dos telefones?
+                        <input type="number"
+                          onChange={(e) => handleAndar(i, { energyPhones: Number(e.target.value) })}
+                        />
+                      </label>
+                    </>
+                  )
+                  }
+                  <br/><br/>
+                </label>
+              )}
+              {possuiAccessPoint && (
+                <label>
+                  Quantidade de acess points neste andar:
+                  <input type="number"
+                    min="1"
+                    onChange={(e) => handleAndar(i, { acessPoints: Number(e.target.value) })}
+                  /><br />
+                  Tipo do acess point:
+                  <select onChange={(e) => handleAndar(i, { technologyAcessPoints: String(e.target.value)})}>
+                    <option value="">Selecione</option>
+
+                    <optgroup label="Indoor">
+                      <option value="ap_wifi5_indoor">AP Wi-Fi 5 Indoor</option>
+                      <option value="ap_wifi6_indoor">AP Wi-Fi 6 Indoor</option>
+                      <option value="ap_wifi6e_indoor">AP Wi-Fi 6E Indoor</option>
+                      <option value="ap_wifi7_indoor">AP Wi-Fi 7 Indoor</option>
+                    </optgroup>
+
+                    <optgroup label="Outdoor">
+                      <option value="ap_wifi5_outdoor">AP Wi-Fi 5 Outdoor</option>
+                      <option value="ap_wifi6_outdoor">AP Wi-Fi 6 Outdoor</option>
+                      <option value="ap_wifi6e_outdoor">AP Wi-Fi 6E Outdoor</option>
+                      <option value="ap_wifi7_outdoor">AP Wi-Fi 7 Outdoor</option>
+                    </optgroup>
+
+                    <optgroup label="Especiais">
+                      <option value="ap_mesh">AP Mesh</option>
+                      <option value="ap_mesh_outdoor">AP Mesh Outdoor</option>
+                      <option value="ap_wallplate">AP Wall Plate</option>
+                      <option value="ap_alta_densidade">AP Alta Densidade</option>
+                      <option value="ap_industrial">AP Industrial</option>
+                    </optgroup>
+                  </select>
+                  <br /><br />
+                </label>
+              )
+              }
+              {possuiControladorDeAcesso && (
+                <label>
+                  Quantidade de controladores de acesso neste andar:
+                  <input type="number"
+                    onChange={(e) => handleAndar(i, { accessControllers: Number(e.target.value) })}
+                  /> <br />
+                  Tipo do identificador de acesso:
+                  <select onChange={(e) => handleAndar(i, { technologyAcessControllers: String(e.target.value) })}>
+                    <option value="">Selecione</option>
+
+                    <optgroup label="Leitores">
+                      <option value="rfid">Leitor RFID</option>
+                      <option value="cartao_proximidade">Cartão de Proximidade</option>
+                      <option value="biometrico">Leitor Biométrico</option>
+                      <option value="facial">Reconhecimento Facial</option>
+                      <option value="qr_code">Leitor QR Code</option>
+                    </optgroup>
+
+                    <optgroup label="Bloqueios">
+                      <option value="fechadura_eletrica">Fechadura Elétrica</option>
+                      <option value="fechadura_eletromagnetica">
+                        Fechadura Eletromagnética
+                      </option>
+                      <option value="fechadura_inteligente">
+                        Fechadura Inteligente
+                      </option>
+                    </optgroup>
+
+                    <optgroup label="Controle de Fluxo">
+                      <option value="catraca">Catraca</option>
+                      <option value="torniquete">Torniquete</option>
+                      <option value="porta_giratória">
+                        Porta Giratória
+                      </option>
+                      <option value="cancela">Cancela Veicular</option>
+                    </optgroup>
+
+                    <optgroup label="Controladoras">
+                      <option value="controladora_1_porta">
+                        Controladora 1 Porta
+                      </option>
+                      <option value="controladora_2_portas">
+                        Controladora 2 Portas
+                      </option>
+                      <option value="controladora_4_portas">
+                        Controladora 4 Portas
+                      </option>
+                      <option value="controladora_8_portas">
+                        Controladora 8 Portas
+                      </option>
+                    </optgroup>
+                  </select> <br/>
+                  Selecione o tipo de alimentação: 
+                  <select onChange={(e) => handleAndar(i, { isAcessControllersPoE: Boolean(e.target.value) })}>
+                    <option value="">Selecione</option>
+                    <option value="true">PoE</option>
+                    <option value="false">Fonte Local</option>
+                  </select> <br/>
+                  Quantas portas de rede ocupam no total?
+                  <input type="number"
+                  onChange={(e) => handleAndar(i, { accessPointNetworkPorts: Number(e.target.value) })}
+                  />
+                  <br/>
+                  {andar.isAcessControllersPoE &&(
+                    <label>
+                      Qual a energia total consumida?
+                      <input type="number"
+                      onChange={(e) => handleAndar(i, { energyAccessControllers: Number(e.target.value) })}
+                      />
+                    </label>
+                  )
+                  }
+                  <br/>
+                </label> 
+              )
+              }
             </label>
             <TypeThing escolhas={andar.escolhas} />
           </div>
