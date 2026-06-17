@@ -9,10 +9,8 @@ import type { Floor } from "./interfaces/Floor";
 function Builder() {
   const [floors, setFloors] = useState<number>(0);
   const [confirmed, setConfirmed] = useState(false);
-  const [escolhasCompartilhadas, setEscolhasCompartilhadas] = useState<Escolha[]>([]);
   const [checkBoxEscolhasCompartilhadas, setCheckBoxEscolhasCompartilhadas] = useState(false);
   const [andares, setAndares] = useState<Floor[]>([])
-  const types = Object.keys(opcoes);
 
   const [quantidadeComputadores, setQuantidadeComputadores] = useState(1);
   const [quantidadeCamera, setQuantidadeCamera] = useState(0);
@@ -24,12 +22,12 @@ function Builder() {
   const [medidaPatchCable, setmedidaPatchCable] = useState(1);
   const [medidaPigTail, setMedidaPigTail] = useState(1.5);
 
-  function handleAndar(index: number, campo: Partial<Floor>){
-    setAndares((prev)=>
-    prev.map((andar, i) =>
-      i === index ? {...andar, ...campo} : andar
-    )
-  );
+  function handleAndar(index: number, campo: Partial<Floor>) {
+    setAndares((prev) =>
+      prev.map((andar, i) =>
+        i === index ? { ...andar, ...campo } : andar
+      )
+    );
   }
 
   if (confirmed) {
@@ -88,35 +86,25 @@ function Builder() {
         {andares.map((andar, i) => (
           <div key={i}>
             <h2>{i === 0 ? "S.E.Q" : `S.E.T ${i + 1}º Andar`}</h2>
-            {i === 0 ?
-              (
-                <>
-                  <label>
-                    Número de computadores neste andar:
-                    <input type="number"
-                    onChange={(e)=>handleAndar(i, {computers: Number(e.target.value)})}
-                    /> <br/>
-                    Número de câmeras neste andar:
-                    <input type="number"
-                    onChange={(e)=>handleAndar(i, {cameras: Number(e.target.value)})}
-                    /> <br/>
-                    Número de telefones neste andar:
-                    <input type="number"
-                    onChange={(e)=>handleAndar(i, {phones: Number(e.target.value)})}
-                    /> <br/> <br/>
-                  </label>
-                  <TypeThing type={types} />
-                </>
-              )
-              : checkBoxEscolhasCompartilhadas ? (
-                <TypeThing
-                  type={types}
-                  escolhas={escolhasCompartilhadas}
-                  setEscolhas={setEscolhasCompartilhadas} />
-              ) : (
-                <TypeThing
-                  type={types} />
+            <label>
+              Número de computadores neste andar:
+              <input type="number"
+                onChange={(e) => handleAndar(i, { computers: Number(e.target.value) })}
+              /> <br />
+              {cameraOuTelefone && (
+                <label>
+                  Número de câmeras neste andar:
+                  <input type="number"
+                    onChange={(e) => handleAndar(i, { cameras: Number(e.target.value) })}
+                  /> <br />
+                  Número de telefones neste andar:
+                  <input type="number"
+                    onChange={(e) => handleAndar(i, { phones: Number(e.target.value) })}
+                  /> <br /><br />
+                </label>
               )}
+            </label>
+            <TypeThing escolhas={andar.escolhas} />
           </div>
         ))}
         <button
@@ -164,7 +152,7 @@ function Builder() {
         >
           Confirmar
         </button>
-    </Accordion >
+      </Accordion >
     </>
   );
 }
