@@ -1,26 +1,15 @@
+import type { Phone } from "./Phone";
+import type { Camera } from "./Camera";
+import type { AccessPoint } from "./AccessPoint";
+import type { AccessController } from "./AccessController";
 import type { Escolha } from "./Escolha";
+import type { Computer } from "./Computer";
 
 export interface Floor{
-    computers?: number;
-
-    phones?: number;
-    technologyPhones?: string;
-    energyPhones?: number;
-
-    cameras?: number;
-    technologyCameras?: string;
-    energyCameras?: number;
-
-    acessPoints?: number;
-    technologyAcessPoints?: string;
-    energyAcessPoints?: number;
-
-    accessControllers?: number;
-    technologyAcessControllers?: string;
-    energyAccessControllers?: number;
-    accessPointNetworkPorts: number;
-    isAcessControllersPoE?: boolean;
-
-
-    escolhas: Escolha[];
+    computers?: Computer[];
+    phones?: Phone[];
+    cameras?: Camera[];
+    accessPoints?: AccessPoint[];
+    accessControllers?: AccessController[];
+    escolhas?: Escolha[];
 }

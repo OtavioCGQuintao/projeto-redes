@@ -1,22 +1,30 @@
 import { useState } from "react";
-import { opcoes } from "./data";
 import TypeThing from "./TypeThing";
 import type { Specifications } from "./interfaces"
 import type { Escolha } from "./interfaces"
 import Accordion from "./Accordion"
 import type { Floor } from "./interfaces/Floor";
+import type { Computer } from "./interfaces/Computer"
+import type { Camera } from "./interfaces/Camera"
+import type { Phone } from "./interfaces/Phone"
+import type { AccessPoint } from "./interfaces/AccessPoint"
+import type { AccessController } from "./interfaces/AccessController"
+import type { ProjectSettings } from "./interfaces/ProjetcSenttings";
+
+type FloorArrayFields = {
+  cameras: Camera;
+  phones: Phone;
+  accessPoints: AccessPoint;
+  accessControllers: AccessController;
+  computers: Computer;
+};
 
 function Builder() {
   const [floors, setFloors] = useState<number>(0);
   const [confirmed, setConfirmed] = useState(false);
-  const [checkBoxEscolhasCompartilhadas, setCheckBoxEscolhasCompartilhadas] = useState(false);
   const [andares, setAndares] = useState<Floor[]>([])
 
   const [quantidadeComputadores, setQuantidadeComputadores] = useState(1);
-  const [quantidadeCamera, setQuantidadeCamera] = useState(0);
-  const [quantidadeTelefone, setQuantidadeTelefone] = useState(0);
-  const [quantidadeAccessPoint, setQuantidadeAccessPoint] = useState(0);
-  const [quantidadeControladorDeAcesso, setQuantidadeControladorDeAcesso] = useState(0);
   const [possuiCamera, setPossuiCamera] = useState(false);
   const [possuiTelefone, setPossuiTelefone] = useState(false);
   const [possuiAccessPoint, setPossuiAccessPoint] = useState(false);
@@ -27,10 +35,41 @@ function Builder() {
   const [medidaPatchCable, setmedidaPatchCable] = useState(1);
   const [medidaPigTail, setMedidaPigTail] = useState(1.5);
 
-  function handleAndar(index: number, campo: Partial<Floor>) {
+
+  type TempState = {
+    [K in keyof FloorArrayFields]: FloorArrayFields[K][];
+  };
+
+  const [temp, setTemp] = useState<TempState>({
+    cameras: Array.from({ length: floors }, () => ({})),
+    phones: Array.from({ length: floors }, () => ({})),
+    accessPoints: Array.from({ length: floors }, () => ({})),
+    accessControllers: Array.from({ length: floors }, () => ({})),
+  });
+
+  function handleTemp<K extends keyof FloorArrayFields>(
+    indexAndar: number,
+    categoria: K,
+    campo: Partial<FloorArrayFields[K]>
+  ) {
+    setTemp((prev) => ({
+      ...prev,
+      [categoria]: prev[categoria].map((item, i) =>
+        i === indexAndar ? { ...item, ...campo } : item
+      ),
+    }));
+  }
+
+  function handleAdicionar<K extends keyof FloorArrayFields>(
+    indexAndar: number,
+    categoria: K,
+  ) {
+    const item = temp[categoria][indexAndar];
     setAndares((prev) =>
       prev.map((andar, i) =>
-        i === index ? { ...andar, ...campo } : andar
+        i === indexAndar
+          ? { ...andar, [categoria]: [...((andar[categoria] as any[]) ?? []), item] }
+          : andar
       )
     );
   }
@@ -48,60 +87,21 @@ function Builder() {
           <input type="checkbox"
             checked={possuiCamera}
             onChange={(e) => setPossuiCamera(e.target.checked)} /><br />
-          {possuiCamera && (
-            <label>
-              Qual a quantidade total de câmera(s)?
-              <input type="number"
-                min="1"
-                onChange={(e) => setQuantidadeCamera(Number(e.target.value))}
-              /> <br /> <br />
-            </label>
-          )
-          }
           Tem telefones?
           <input type="checkbox"
             checked={possuiTelefone}
             onChange={(e) => setPossuiTelefone(e.target.checked)} /><br />
-          {possuiTelefone && (
-            <label>
-              Qual a quantidade total de telefone(s)?
-              <input type="number"
-                min="1"
-                onChange={(e) => setQuantidadeTelefone(Number(e.target.value))}
-              /> <br /> <br />
-            </label>
-          )
-          }
           Tem access points?
           <input type="checkbox"
             checked={possuiAccessPoint}
             onChange={(e) => setPossuiAccessPoint(e.target.checked)} /><br />
-          {possuiAccessPoint && (
-            <label>
-              Qual a quantidade total de access point(s)?
-              <input type="number"
-                min="1"
-                onChange={(e) => setQuantidadeAccessPoint(Number(e.target.value))}
-              /> <br /><br />
-            </label>
-          )
-          }
           Tem controladores de acesso?
           <input type="checkbox"
             checked={possuiControladorDeAcesso}
             onChange={(e) => setPossuiControladorDeAcesso(e.target.checked)} />
-          {possuiControladorDeAcesso && (
-            <label>
-              Qual a quantidade total de controlador(es) de acesso?
-              <input type="number"
-                min="1"
-                onChange={(e) => setQuantidadeControladorDeAcesso(Number(e.target.value))}
-              /> 
-            </label>
-          )
-          }
-          <br/><br/>
-          Qual a velocidade esperada? (Em GB)
+          <br />
+          <br /><br />
+          Qual a velocidade esperada para cada usuário? (Em GB)
           <input type="number"
             placeholder={String(velocidadeEsperadaPorUsuario)}
             onChange={(e) => setVelocidadeEsperadaPorUsuario(Number(e.target.value))}
@@ -131,58 +131,71 @@ function Builder() {
             <label>
               Número de computadores neste andar:
               <input type="number"
-                onChange={(e) => handleAndar(i, { computers: Number(e.target.value) })}
+                onChange={(e) => handleTemp(i, "computers", { computers: Number(e.target.value) })}
               /> <br /> <br />
               {possuiCamera && (
                 <label>
                   Número de câmeras neste andar:
                   <input type="number"
-                    onChange={(e) => handleAndar(i, { cameras: Number(e.target.value) })}
+                    onChange={(e) => handleTemp(i, "cameras", { cameras: Number(e.target.value) })}
                   /> <br />
                   Selecione a tecnologia da(s) câmera(s):
-                  <select onChange={(e) => handleAndar(i, { technologyCameras: String(e.target.value) })}>
+                  <select onChange={(e) => handleTemp(i, "cameras", { technologyCameras: String(e.target.value) })}>
                     <option value="">Selecione</option>
                     <option value="ip_sem_poe">IP sem PoE</option>
                     <option value="ip_com_poe">IP com PoE</option>
                     <option value="analogica_hd">Analógica HD </option>
                     <option value="analogica_tradicional">Analógica Tradicional</option>
                   </select> <br />
-                  {andar.technologyCameras === "ip_com_poe" && (
+                  {temp.cameras[i]?.technologyCameras === "ip_com_poe" && (
                     <label>
                       Qual o consumo total das câmeras? (Watts)
                       <input type="number"
-                        onChange={(e) => handleAndar(i, { energyCameras: Number(e.target.value) })}
+                        onChange={(e) => handleTemp(i, "cameras", { energyCameras: Number(e.target.value) })}
                       />
                     </label>
                   )
                   }
-                  <br /> <br />
+                  <br /> <br/>
+                  <button onClick={() =>
+                    handleAdicionar(i, "cameras")
+                  }>
+                    Confirmar Câmeras
+                  </button>
+                  <br /><br />
                 </label>
               )}
               {possuiTelefone && (
                 <label>
                   Quantidade de telefones neste andar:
                   <input type="number"
-                    onChange={(e) => handleAndar(i, { phones: Number(e.target.value) })}
+                    onChange={(e) => handleTemp(i, "phones", { phones: Number(e.target.value) })}
                   /> <br />
                   Selecione a tecnologia do(s) telefone(s):
-                  <select onChange={(e) => handleAndar(i, { technologyPhones: String(e.target.value) })}>
+                  <select onChange={(e) => handleTemp(i, "phones", { technologyPhones: String(e.target.value) })}>
                     <option value="">Selecione</option>
                     <option value="analogico">Analógico</option>
                     <option value="voip">VoIP</option>
                   </select> <br />
-                  {andar.technologyPhones === "voip" && (
+                  {temp.phones[i]?.technologyPhones === "voip" && (
                     <>
                       <label>
                         Qual o consumo total dos telefones?
                         <input type="number"
-                          onChange={(e) => handleAndar(i, { energyPhones: Number(e.target.value) })}
+                          onChange={(e) => handleTemp(i, "phones", { energyPhones: Number(e.target.value) })}
                         />
+                        <br />
                       </label>
                     </>
                   )
                   }
-                  <br/><br/>
+                  <br />
+                  <button onClick={() =>
+                    handleAdicionar(i, "phones")
+                  }>
+                    Confirmar telefones
+                  </button>
+                  <br /><br />
                 </label>
               )}
               {possuiAccessPoint && (
@@ -190,10 +203,10 @@ function Builder() {
                   Quantidade de acess points neste andar:
                   <input type="number"
                     min="1"
-                    onChange={(e) => handleAndar(i, { acessPoints: Number(e.target.value) })}
+                    onChange={(e) => handleTemp(i, "accessPoints", { acessPoints: Number(e.target.value) })}
                   /><br />
                   Tipo do acess point:
-                  <select onChange={(e) => handleAndar(i, { technologyAcessPoints: String(e.target.value)})}>
+                  <select onChange={(e) => handleTemp(i, "accessPoints", { technologyAcessPoints: String(e.target.value) })}>
                     <option value="">Selecione</option>
 
                     <optgroup label="Indoor">
@@ -218,7 +231,13 @@ function Builder() {
                       <option value="ap_industrial">AP Industrial</option>
                     </optgroup>
                   </select>
-                  <br /><br />
+                  <br /> <br />
+                  <button onClick={() =>
+                    handleAdicionar(i, "accessPoints")
+                  }>
+                    Confirmar pontos de acesso
+                  </button>
+                  <br /> <br />
                 </label>
               )
               }
@@ -226,10 +245,10 @@ function Builder() {
                 <label>
                   Quantidade de controladores de acesso neste andar:
                   <input type="number"
-                    onChange={(e) => handleAndar(i, { accessControllers: Number(e.target.value) })}
+                    onChange={(e) => handleTemp(i, "accessControllers", { accessControllers: Number(e.target.value) })}
                   /> <br />
                   Tipo do identificador de acesso:
-                  <select onChange={(e) => handleAndar(i, { technologyAcessControllers: String(e.target.value) })}>
+                  <select onChange={(e) => handleTemp(i, "accessControllers", { technologyAcessControllers: String(e.target.value) })}>
                     <option value="">Selecione</option>
 
                     <optgroup label="Leitores">
@@ -273,29 +292,36 @@ function Builder() {
                         Controladora 8 Portas
                       </option>
                     </optgroup>
-                  </select> <br/>
-                  Selecione o tipo de alimentação: 
-                  <select onChange={(e) => handleAndar(i, { isAcessControllersPoE: Boolean(e.target.value) })}>
+                  </select> <br />
+                  Selecione o tipo de alimentação:
+                  <select onChange={(e) => handleTemp(i, "accessControllers", { isAcessControllersPoE: e.target.value === "true" })}>
                     <option value="">Selecione</option>
                     <option value="true">PoE</option>
                     <option value="false">Fonte Local</option>
-                  </select> <br/>
-                  Quantas portas de rede ocupam no total?
+                  </select> <br />
+                  Quantas portas de rede ocupam no total""?
                   <input type="number"
-                  onChange={(e) => handleAndar(i, { accessPointNetworkPorts: Number(e.target.value) })}
+                    onChange={(e) => handleTemp(i, "accessControllers", { accessControllerNetworkPorts: Number(e.target.value) })}
                   />
-                  <br/>
-                  {andar.isAcessControllersPoE &&(
+                  <br /> 
+                  {temp.accessControllers[i]?.isAcessControllersPoE && (
                     <label>
-                      Qual a energia total consumida?
+                      Qual a energia total consumida? (Watts)
                       <input type="number"
-                      onChange={(e) => handleAndar(i, { energyAccessControllers: Number(e.target.value) })}
+                        onChange={(e) => handleTemp(i, "accessControllers", { energyAccessControllers: Number(e.target.value) })}
                       />
+                      <br />
                     </label>
                   )
                   }
-                  <br/>
-                </label> 
+                  <br />
+                  <button onClick={() =>
+                    handleAdicionar(i, "accessControllers")
+                  }>
+                    Confirmar controladores de acesso
+                  </button>
+                  <br /><br />
+                </label>
               )
               }
             </label>
@@ -328,11 +354,6 @@ function Builder() {
           onChange={(e) => setFloors(Number(e.target.value))}
         />
         <label>
-          <input
-            type="checkbox"
-            checked={checkBoxEscolhasCompartilhadas}
-            onChange={(e) => setCheckBoxEscolhasCompartilhadas(e.target.checked)}
-          />
           Todos os S.E.Ts terão os mesmos equipamentos?
         </label>
         <button
@@ -343,6 +364,13 @@ function Builder() {
             setAndares(Array.from({ length: floors }, () => ({
               escolhas: [],
             })));
+            setTemp({
+              cameras: Array.from({ length: floors }, () => ({})),
+              phones: Array.from({ length: floors }, () => ({})),
+              accessPoints: Array.from({ length: floors }, () => ({})),
+              accessControllers: Array.from({ length: floors }, () => ({})),
+              computers: Array.from({ length: floors }, () => ({})),
+            });
           }}
         >
           Confirmar
