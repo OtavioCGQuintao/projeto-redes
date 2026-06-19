@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Accordion from "./Accordion"
+import Accordion from "./Accordion";
 import type { Floor } from "./interfaces/Floor";
 import type { ProjectSettings } from "./interfaces/ProjetcSenttings";
 import { GeneralForm } from "./GeneralForm";
@@ -10,7 +10,7 @@ import type { TempState } from "./types/TempState";
 function Builder() {
   const [floors, setFloors] = useState<number>(0);
   const [confirmed, setConfirmed] = useState(false);
-  const [andares, setAndares] = useState<Floor[]>([])
+  const [andares, setAndares] = useState<Floor[]>([]);
 
   const [projectSettings, setProjectSettings] = useState<ProjectSettings>({
     amountOfComputers: 1,
@@ -31,7 +31,7 @@ function Builder() {
     phones: Array.from({ length: floors }, () => ({})),
     accessPoints: Array.from({ length: floors }, () => ({})),
     accessControllers: Array.from({ length: floors }, () => ({})),
-    computers: Array.from({ length: floors }, () => ({}))
+    computers: Array.from({ length: floors }, () => ({})),
   });
 
   function handleTemp<K extends keyof FloorArrayFields>(
@@ -49,13 +49,20 @@ function Builder() {
 
   function handleAdd<K extends keyof FloorArrayFields>(
     indexAndar: number,
-    categoria: K,
+    categoria: K
   ) {
     const item = temp[categoria][indexAndar];
+
     setAndares((prev) =>
       prev.map((andar, i) =>
         i === indexAndar
-          ? { ...andar, [categoria]: [...((andar[categoria] as unknown[]) ?? []), item] }
+          ? {
+              ...andar,
+              [categoria]: [
+                ...((andar[categoria] as unknown[]) ?? []),
+                item,
+              ],
+            }
           : andar
       )
     );
@@ -65,17 +72,19 @@ function Builder() {
     return (
       <>
         <GeneralForm
-          settings={projectSettings} onSettingsChange={setProjectSettings}>
-        </GeneralForm>
+          settings={projectSettings}
+          onSettingsChange={setProjectSettings}
+        />
 
-        {andares.map((floor ,i) => (
-          <FloorEditor 
+        {andares.map((floor, i) => (
+          <FloorEditor
+            key={i}
             floorIndex={i}
             temp={temp}
             settings={projectSettings}
             handleTemp={handleTemp}
-            handleAdd={handleAdd}>
-            </FloorEditor>
+            handleAdd={handleAdd}
+          />
         ))}
 
         <button
@@ -97,21 +106,28 @@ function Builder() {
         <h2>Quantos andares o prédio possui?</h2>
         <h3>Certifique-se de que o número esteja correto!</h3>
         <br />
+
         <input
           type="number"
           min={1}
           value={floors || ""}
           onChange={(e) => setFloors(Number(e.target.value))}
         />
-        <br/>
+
+        <br />
+
         <button
           type="button"
           disabled={floors < 1}
           onClick={() => {
             setConfirmed(true);
-            setAndares(Array.from({ length: floors }, () => ({
-              escolhas: [],
-            })));
+
+            setAndares(
+              Array.from({ length: floors }, () => ({
+                escolhas: [],
+              }))
+            );
+
             setTemp({
               cameras: Array.from({ length: floors }, () => ({})),
               phones: Array.from({ length: floors }, () => ({})),
@@ -123,7 +139,7 @@ function Builder() {
         >
           Confirmar
         </button>
-      </Accordion >
+      </Accordion>
     </>
   );
 }
