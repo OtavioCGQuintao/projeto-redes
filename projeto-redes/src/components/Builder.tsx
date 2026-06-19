@@ -102,7 +102,7 @@ function Builder() {
 
   return (
     <>
-      <Accordion>
+      <Accordion open={true}>
         <h2>Quantos andares o prédio possui?</h2>
         <h3>Certifique-se de que o número esteja correto!</h3>
         <br />

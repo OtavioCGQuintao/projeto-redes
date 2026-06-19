@@ -1,8 +1,8 @@
-import type { Camera } from "../interfaces/Camera";
-import type { Phone } from "../interfaces/Phone";
+import type { Camera } from "../interfaces/devices/Camera";
+import type { Phone } from "../interfaces/devices/Phone";
 import type { AccessPoint } from "../interfaces/devices/AccessPoint";
-import type { AccessController } from "../interfaces/AccessController";
-import type { Computer } from "../interfaces/Computer";
+import type { AccessController } from "../interfaces/devices/AccessController";
+import type { Computer } from "../interfaces/devices/Computer";
 
 export type FloorArrayFields = {
   cameras: Camera;
