@@ -1,4 +1,4 @@
-import type { Specifications } from "./interfaces";
+import type { Specifications } from "../interfaces";
 
 export function Specs({ specs }: { specs: Specifications }) {
   switch (specs.type) {

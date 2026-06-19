@@ -1,6 +1,6 @@
 import type { Phone } from "./Phone";
 import type { Camera } from "./Camera";
-import type { AccessPoint } from "./AccessPoint";
+import type { AccessPoint } from "./devices/AccessPoint";
 import type { AccessController } from "./AccessController";
 import type { Escolha } from "./Choices";
 import type { Computer } from "./Computer";

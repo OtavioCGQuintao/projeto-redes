@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Accordion from "./Accordion";
-import type { Floor } from "./interfaces/Floor";
-import type { ProjectSettings } from "./interfaces/ProjetcSenttings";
-import { GeneralForm } from "./GeneralForm";
-import type { FloorArrayFields } from "./types/FloorArrayFields";
 import { FloorEditor } from "./FloorEditor";
-import type { TempState } from "./types/TempState";
+import { GeneralForm } from "./GeneralForm";
+import type { Floor } from "../interfaces/Floor";
+import type { ProjectSettings } from "../interfaces/project/ProjetcSenttings";
+import type { FloorArrayFields } from "../types/FloorArrayFields";
+import type { TempState } from "../types/TempState";
 
 function Builder() {
   const [floors, setFloors] = useState<number>(0);
