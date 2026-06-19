@@ -1,6 +1,6 @@
 import type { Specifications } from "./Specifications";
 
-export interface Escolha {
+export interface Choices {
   id: number;
   categoria: string;
   subType: string;

@@ -1,5 +1,5 @@
 export interface Phone{
     phones?: number;
-    technologyPhones?: string;
+    isPhonePoE?: boolean;
     energyPhones?: number;
 }

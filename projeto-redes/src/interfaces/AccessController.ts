@@ -1,7 +1,6 @@
 export interface  AccessController{
     accessControllers?: number;
-    technologyAcessControllers?: string;
+    isAcessControllersPoE?: boolean;
     energyAccessControllers?: number;
     accessControllerNetworkPorts?: number;
-    isAcessControllersPoE?: boolean;
 }

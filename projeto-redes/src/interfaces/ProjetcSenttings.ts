@@ -1,4 +1,5 @@
 export interface ProjectSettings {
+  amountOfComputers: number;
   expectedUserSpeedGbps: number;
   horizontalCablingLengthMeters: number;
   patchCordLengthMeters: number;
@@ -7,5 +8,6 @@ export interface ProjectSettings {
   haveCameras: boolean;
   havePhones: boolean;
   haveAccessPoints: boolean;
-  haveAccessController: boolean;
+  haveAccessControllers: boolean;
+  opticalCordLength: number;
 }

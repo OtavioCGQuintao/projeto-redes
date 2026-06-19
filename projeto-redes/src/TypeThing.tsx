@@ -7,7 +7,7 @@ interface TypeThingProps {
   escolhas: Escolha[];
 }
 
-function TypeThing({ escolhas }: TypeThingProps) {
+export function TypeThing({ escolhas }: TypeThingProps) {
   if (escolhas.length === 0) return null;
 
   return (
@@ -26,5 +26,3 @@ function TypeThing({ escolhas }: TypeThingProps) {
     </Accordion>
   );
 }
-
-export default TypeThing;
