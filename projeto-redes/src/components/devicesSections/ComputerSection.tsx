@@ -1,5 +1,6 @@
 import type { TempState } from "../../types/TempState";
 import type { FloorEditorProps } from "../../types/FloorEditorProps";
+import { useState } from "react";
 
 interface ComputerSectionProps {
     floorIndex: number;
@@ -13,6 +14,7 @@ export function ComputerSection({
     handleTemp,
     handleAdd,
 }: ComputerSectionProps) {
+    const [confirmed, setConfirmed] = useState(false);
     return (
         <>
             Número de computadores neste andar:
@@ -25,9 +27,10 @@ export function ComputerSection({
                         { computers: Number(e.target.value) }
                     )
                 }
-            />
+            /> <br/><br/>
 
-            <button onClick={() => handleAdd(floorIndex, "computers")}>
+            <button onClick={() => {handleAdd(floorIndex, "computers"); setConfirmed(true)}}
+             disabled={confirmed}>
                 Confirmar Computadores
             </button>
             <br />
