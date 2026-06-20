@@ -7,6 +7,7 @@ import { AccessPointSection } from "./devicesSections/AccessPointSection";
 import { AccessControllerSection } from "./devicesSections/AccessControllerSection";
 
 export function FloorEditor({
+    floor,
     floorIndex,
     temp,
     settings,
@@ -24,6 +25,7 @@ export function FloorEditor({
                 </h2>
                 <label>
                     <ComputerSection
+                        floor={floor}
                         floorIndex={floorIndex}
                         temp={temp}
                         handleTemp={handleTemp}
@@ -31,6 +33,7 @@ export function FloorEditor({
                     ></ComputerSection>
 
                     <PhoneSection
+                        floor={floor}
                         settings={settings}
                         floorIndex={floorIndex}
                         temp={temp}
@@ -40,6 +43,7 @@ export function FloorEditor({
                     </PhoneSection>
 
                     <CameraSection
+                        floor={floor}
                         settings={settings}
                         floorIndex={floorIndex}
                         temp={temp}
@@ -48,6 +52,7 @@ export function FloorEditor({
                     ></CameraSection>
 
                     <AccessPointSection
+                        floor={floor}
                         settings={settings}
                         floorIndex={floorIndex}
                         temp={temp}
@@ -56,6 +61,7 @@ export function FloorEditor({
                     </AccessPointSection>
 
                     <AccessControllerSection
+                        floor={floor}
                         settings={settings}
                         floorIndex={floorIndex}
                         temp={temp}

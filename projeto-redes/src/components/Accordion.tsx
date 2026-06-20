@@ -2,11 +2,11 @@ import type { PropsWithChildren } from "react";
 import { useState } from "react"
 
 interface ButtonProps extends PropsWithChildren {
-    titulo?: string;
+    title?: string;
     open?: boolean;
 }
 
-function Accordion({ titulo, children, open }: ButtonProps) {
+function Accordion({ title, children, open }: ButtonProps) {
     const [visivel, setVisivel] = useState(open ?? false);
     if (open) {
         return (
@@ -15,7 +15,7 @@ function Accordion({ titulo, children, open }: ButtonProps) {
                     <h6>
                         <button type="button"
                             onClick={() => setVisivel(!visivel)}>
-                            {titulo} {visivel === true ? "▲" : "▼"}
+                            {title} {visivel === true ? "▲" : "▼"}
                         </button>
                     </h6>
                     {visivel && <div>{children}</div>}
@@ -29,7 +29,7 @@ function Accordion({ titulo, children, open }: ButtonProps) {
                 <h6>
                     <button type="button"
                         onClick={() => setVisivel(!visivel)}>
-                        {titulo} {visivel === true ? "▲" : "▼"}
+                        {title} {visivel === true ? "▲" : "▼"}
                     </button>
                 </h6>
                 {visivel && <div>{children}</div>}

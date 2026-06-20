@@ -1,9 +1,9 @@
-import type { Phone } from "./Phone";
-import type { Camera } from "./Camera";
+import type { Phone } from "./devices/Phone";
+import type { Camera } from "./devices/Camera";
 import type { AccessPoint } from "./devices/AccessPoint";
-import type { AccessController } from "./AccessController";
-import type { Escolha } from "./Choices";
-import type { Computer } from "./Computer";
+import type { AccessController } from "./devices/AccessController";
+import type { Choices } from "./Choices";
+import type { Computer } from "./devices/Computer";
 
 export interface Floor{
     computers?: Computer[];
@@ -11,5 +11,5 @@ export interface Floor{
     cameras?: Camera[];
     accessPoints?: AccessPoint[];
     accessControllers?: AccessController[];
-    escolhas?: Escolha[];
+    choices?: Choices[];
 }

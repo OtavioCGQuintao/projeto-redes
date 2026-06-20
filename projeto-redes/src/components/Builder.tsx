@@ -78,6 +78,7 @@ function Builder() {
 
         {andares.map((floor, i) => (
           <FloorEditor
+            floor={floor}
             key={i}
             floorIndex={i}
             temp={temp}
@@ -124,7 +125,7 @@ function Builder() {
 
             setAndares(
               Array.from({ length: floors }, () => ({
-                escolhas: [],
+                choices: [],
               }))
             );
 

@@ -1,9 +1,10 @@
 import type { ProjectSettings } from "../../interfaces/project/ProjetcSenttings";
 import type { TempState } from "../../types/TempState";
 import type { FloorEditorProps } from "../../types/FloorEditorProps";
-
+import Accordion from "../Accordion";
 
 interface CameraSectionProps {
+  floor: FloorEditorProps["floor"];
   settings: ProjectSettings;
   floorIndex: number;
   temp: TempState;
@@ -12,6 +13,7 @@ interface CameraSectionProps {
 }
 
 export function CameraSection({
+  floor,
   settings,
   floorIndex,
   temp,
@@ -81,12 +83,32 @@ export function CameraSection({
 
         <br />
         <br />
+
+        <Accordion title="Câmeras adicionadas">
+        {(floor.cameras ?? []).map((camera, index) =>
+          <div key={index}>
+            Câmera #{index+1} 
+            <br/>
+            Tipo: {camera.technologyCameras}
+            <br/>
+            {camera.technologyCameras === "ip_com_poe" && (
+              <>
+              Total gasto: {camera.energyCameras}w
+              <br/> <br/>
+              </>
+            )
+            }
+            <br/>
+          </div>
+      )
+
+        }
+        </Accordion>
       </label>
 
     );
   } else {
-    <>
-    </>
+    return null;
   }
 
 }
