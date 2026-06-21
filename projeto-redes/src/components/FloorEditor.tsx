@@ -1,10 +1,11 @@
 import type { FloorEditorProps } from "../types/FloorEditorProps";
 
-import { ComputerSection } from "./devicesSections/ComputerSection";
-import { CameraSection } from "./devicesSections/CameraSection";
-import { PhoneSection } from "./devicesSections/PhoneSection";
-import { AccessPointSection } from "./devicesSections/AccessPointSection";
-import { AccessControllerSection } from "./devicesSections/AccessControllerSection";
+import { ComputerSection } from "./floorSections/ComputerSection";
+import { CameraSection } from "./floorSections/CameraSection";
+import { PhoneSection } from "./floorSections/PhoneSection";
+import { AccessPointSection } from "./floorSections/AccessPointSection";
+import { AccessControllerSection } from "./floorSections/AccessControllerSection";
+import { DistanceToMainRackSection } from "./floorSections/DistanceToMainRackSection";
 
 export function FloorEditor({
     floor,
@@ -68,6 +69,16 @@ export function FloorEditor({
                         handleTemp={handleTemp}
                         handleAdd={handleAdd}>
                     </AccessControllerSection>
+
+                    <DistanceToMainRackSection
+                        floor={floor}
+                        settings={settings}
+                        floorIndex={floorIndex}
+                        temp={temp}
+                        handleTemp={handleTemp}
+                        handleAdd={handleAdd}>
+                    </DistanceToMainRackSection>
+
                 </label>
             </div>
         </>

@@ -6,6 +6,7 @@ import type { Choices } from "./Choices";
 import type { Computer } from "./devices/Computer";
 
 export interface Floor{
+    distanceToMainRack?: number;
     computers?: Computer[];
     phones?: Phone[];
     cameras?: Camera[];

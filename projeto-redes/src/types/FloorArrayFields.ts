@@ -3,8 +3,10 @@ import type { Phone } from "../interfaces/devices/Phone";
 import type { AccessPoint } from "../interfaces/devices/AccessPoint";
 import type { AccessController } from "../interfaces/devices/AccessController";
 import type { Computer } from "../interfaces/devices/Computer";
+import type { distanceToMainRack } from "../interfaces/devices/DistanceToMainRack";
 
 export type FloorArrayFields = {
+  distanceToMainRack: distanceToMainRack;
   cameras: Camera;
   phones: Phone;
   accessPoints: AccessPoint;

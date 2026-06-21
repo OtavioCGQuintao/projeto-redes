@@ -32,6 +32,7 @@ function Builder() {
     accessPoints: Array.from({ length: floors }, () => ({})),
     accessControllers: Array.from({ length: floors }, () => ({})),
     computers: Array.from({ length: floors }, () => ({})),
+    distanceToMainRack: Array.from({ length: floors}, () => ({}))
   });
 
   function handleTemp<K extends keyof FloorArrayFields>(
@@ -135,6 +136,7 @@ function Builder() {
               accessPoints: Array.from({ length: floors }, () => ({})),
               accessControllers: Array.from({ length: floors }, () => ({})),
               computers: Array.from({ length: floors }, () => ({})),
+              distanceToMainRack: Array.from({ length: floors}, () => ({}))
             });
           }}
         >
