@@ -1,5 +1,5 @@
 import type { TempState } from "./TempState";
-import type { ProjectSettings } from "../interfaces/project/ProjetcSenttings";
+import type { ProjectSettings } from "../interfaces/project/ProjectSenttings";
 import type { FloorArrayFields } from "./FloorArrayFields";
 import type { Floor } from "../interfaces/Floor";
 

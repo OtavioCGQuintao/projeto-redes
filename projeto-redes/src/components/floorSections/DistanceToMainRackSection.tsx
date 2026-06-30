@@ -1,4 +1,4 @@
-import type { ProjectSettings } from "../../interfaces/project/ProjetcSenttings";
+import type { ProjectSettings } from "../../interfaces/project/ProjectSenttings";
 import type { TempState } from "../../types/TempState";
 import type { FloorEditorProps } from "../../types/FloorEditorProps";
 import { useState } from "react";

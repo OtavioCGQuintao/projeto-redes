@@ -1,4 +1,4 @@
-import type { ProjectSettings } from "../../interfaces/project/ProjetcSenttings";
+import type { ProjectSettings } from "../../interfaces/project/ProjectSenttings";
 import type { TempState } from "../../types/TempState";
 import type { FloorEditorProps } from "../../types/FloorEditorProps";
 import Accordion from "../Accordion";
@@ -33,7 +33,7 @@ export function AccessPointSection({
                             handleTemp(
                                 floorIndex,
                                 "accessPoints",
-                                { acessPoints: Number(e.target.value) }
+                                { accessPoints: Number(e.target.value) }
                             )
                         }
                     />
@@ -93,7 +93,7 @@ export function AccessPointSection({
                             <div key={index}>
                                 Ponto de acesso #{index + 1}
                                 <br />
-                                Quantidade: {accessPoint.acessPoints}
+                                Quantidade: {accessPoint.accessPoints}
                                 <br />
                                 {accessPoint.isAccessPointsPoE ? (
                                     <>

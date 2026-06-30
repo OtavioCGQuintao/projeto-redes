@@ -1,5 +1,5 @@
 export interface AccessPoint{
-    acessPoints?: number;
+    accessPoints?: number;
     isAccessPointsPoE?: boolean;
     energyAcessPoints?: number;
 }

@@ -1,4 +1,5 @@
 export interface ProjectSettings {
+  restForGrowth: number;
   amountOfComputers: number;
   expectedUserSpeedGbps: number;
   horizontalCablingLengthMeters: number;

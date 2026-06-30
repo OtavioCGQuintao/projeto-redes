@@ -1,4 +1,4 @@
-import type { ProjectSettings } from "../../interfaces/project/ProjetcSenttings";
+import type { ProjectSettings } from "../../interfaces/project/ProjectSenttings";
 import type { TempState } from "../../types/TempState";
 import type { FloorEditorProps } from "../../types/FloorEditorProps";
 import Accordion from "../Accordion";
@@ -50,10 +50,6 @@ export function CameraSection({
           <option value="">Selecione</option>
           <option value="ip_sem_poe">IP sem PoE</option>
           <option value="ip_com_poe">IP com PoE</option>
-          <option value="analogica_hd">Analógica HD </option>
-          <option value="analogica_tradicional">
-            Analógica Tradicional
-          </option>
         </select>
 
         <br />

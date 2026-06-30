@@ -1,4 +1,4 @@
-import type { ProjectSettings } from "./interfaces/ProjetcSenttings";
+import type { ProjectSettings } from "../interfaces/project/ProjectSenttings";
 
 interface GeneralProjectFormProps {
   settings: ProjectSettings;
@@ -13,6 +13,22 @@ export function GeneralForm({
 }: GeneralProjectFormProps) {
   return (
     <label>
+      Qual será a folga para crescimento? (%)
+      <input
+        type="number"
+        min="1"
+        value={settings.restForGrowth}
+        onChange={(e) =>
+          onSettingsChange((prev: ProjectSettings) => ({
+            ...prev,
+            restForGrowth: Number(e.target.value),
+          }))
+        }
+      />
+
+      <br />
+      <br />
+
       Qual a quantidade total de computadores?
       <input
         type="number"

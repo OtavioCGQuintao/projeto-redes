@@ -3,7 +3,7 @@ import Accordion from "./Accordion";
 import { FloorEditor } from "./FloorEditor";
 import { GeneralForm } from "./GeneralForm";
 import type { Floor } from "../interfaces/Floor";
-import type { ProjectSettings } from "../interfaces/project/ProjetcSenttings";
+import type { ProjectSettings } from "../interfaces/project/ProjectSenttings";
 import type { FloorArrayFields } from "../types/FloorArrayFields";
 import type { TempState } from "../types/TempState";
 
@@ -13,6 +13,7 @@ function Builder() {
   const [andares, setAndares] = useState<Floor[]>([]);
 
   const [projectSettings, setProjectSettings] = useState<ProjectSettings>({
+    restForGrowth: 50,
     amountOfComputers: 1,
     expectedUserSpeedGbps: 10,
     horizontalCablingLengthMeters: 25,
@@ -123,12 +124,6 @@ function Builder() {
           disabled={floors < 1}
           onClick={() => {
             setConfirmed(true);
-
-            setAndares(
-              Array.from({ length: floors }, () => ({
-                choices: [],
-              }))
-            );
 
             setTemp({
               cameras: Array.from({ length: floors }, () => ({})),
