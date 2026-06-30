@@ -85,6 +85,8 @@ export function CameraSection({
           <div key={index}>
             Câmera #{index+1} 
             <br/>
+            Quantidade: {camera.cameras}
+            <br/>
             Tipo: {camera.technologyCameras}
             <br/>
             {camera.technologyCameras === "ip_com_poe" && (

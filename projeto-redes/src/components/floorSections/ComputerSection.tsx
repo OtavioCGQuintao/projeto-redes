@@ -44,6 +44,8 @@ export function ComputerSection({
                     <div key={index}>
                         Quantidade: {computer.computers}
                     </div>
+                    <br/>
+                    <br/>
                     </>
                 ))}
             </Accordion>

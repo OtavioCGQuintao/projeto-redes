@@ -50,7 +50,6 @@ export function PhoneSection({
                         }
                     >
                         <option value="">Selecione</option>
-                        <option value="">Analógico</option>
                         <option value="true">VoIP</option>
                     </select>
 

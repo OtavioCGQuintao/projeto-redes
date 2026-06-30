@@ -33,7 +33,7 @@ function Builder() {
     accessPoints: Array.from({ length: floors }, () => ({})),
     accessControllers: Array.from({ length: floors }, () => ({})),
     computers: Array.from({ length: floors }, () => ({})),
-    distanceToMainRack: Array.from({ length: floors}, () => ({}))
+    distanceToMainRack: Array.from({ length: floors }, () => ({}))
   });
 
   function handleTemp<K extends keyof FloorArrayFields>(
@@ -59,12 +59,12 @@ function Builder() {
       prev.map((andar, i) =>
         i === indexAndar
           ? {
-              ...andar,
-              [categoria]: [
-                ...((andar[categoria] as unknown[]) ?? []),
-                item,
-              ],
-            }
+            ...andar,
+            [categoria]: [
+              ...((andar[categoria] as unknown[]) ?? []),
+              item,
+            ],
+          }
           : andar
       )
     );
@@ -125,13 +125,17 @@ function Builder() {
           onClick={() => {
             setConfirmed(true);
 
+            setAndares(
+              Array.from({ length: floors }, () => ({} as Floor))
+            );
+            
             setTemp({
               cameras: Array.from({ length: floors }, () => ({})),
               phones: Array.from({ length: floors }, () => ({})),
               accessPoints: Array.from({ length: floors }, () => ({})),
               accessControllers: Array.from({ length: floors }, () => ({})),
               computers: Array.from({ length: floors }, () => ({})),
-              distanceToMainRack: Array.from({ length: floors}, () => ({}))
+              distanceToMainRack: Array.from({ length: floors }, () => ({}))
             });
           }}
         >
