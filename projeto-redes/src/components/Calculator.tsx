@@ -8,6 +8,16 @@ interface CalculatorProps {
 }
 
 export function Calculator({ settings, floor }: CalculatorProps) {
+    //Tags
+    let amountHorizontalCablingTag = 0;
+    let amountOutletCoverPlateAndPowerOutletTag = 0;
+    let amountPatchCableTag = 0;
+    let amountPatchPanelTag = 0;
+    let amountPatchPanelPortsTag = 0;
+
+    //PowerStrip
+    let powerStripPorts = 0;
+
     //FemaleRJ45Connector
     let amountFemaleRJ45Connector = 0;
 
@@ -23,6 +33,9 @@ export function Calculator({ settings, floor }: CalculatorProps) {
     let blueCableLength = 0;
     let redCableLength = 0;
     let yellowCableLength = 0;
+
+    //Rack
+    let rackHeight = 0;
 
     //PatchCord
     let patchCordBlueCableLength = 0;
@@ -142,8 +155,8 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         //HorizontalCabling
         horizontalCablingLength =
             (blueCableDeviceCount +
-            redCableDeviceCount +
-            yellowCableDeviceCount) * settings.horizontalCablingLengthMeters;
+                redCableDeviceCount +
+                yellowCableDeviceCount) * settings.horizontalCablingLengthMeters;
     }
 
     function calculatePatchCordCablesLength() {
@@ -178,6 +191,64 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         amountOutletCoverPlate = cableCount;
     }
 
-    
+    function calculateTags() {
+        //HorizontalCabling
+        amountHorizontalCablingTag = amountOutletCoverPlate * 4;
 
+        //OutletCoverPlateAndPowerOutlet
+        amountOutletCoverPlateAndPowerOutletTag = amountOutletCoverPlate * 3;
+
+        //PatchCable
+        amountPatchCableTag = amountOutletCoverPlate * 4;
+
+        //PatchPanel
+        amountPatchPanelTag = amountNormalPatchPanel + amountPoePatchPanel;
+
+        //PatchPanelPorts
+        amountPatchPanelPortsTag = (amountNormalPatchPanel + amountPoePatchPanel) * 24;
+    }
+
+    function calculatePowerStrip() {
+        //PowerStrip
+        let countDevices = amountPoeSwitch +
+            amountNormalSwitch +
+            amountPoePatchPanel +
+            amountNormalPatchPanel;
+        (floor.rack ?? []).forEach(rack => {
+            if (rack.hasExhaustFan) {
+                countDevices += 1;
+            }
+            if (rack.hasRouter) {
+                countDevices += 1;
+            }
+        });
+        powerStripPorts = Math.round((countDevices * settings.restForGrowth) / 2) * 2;
+    }
+
+    function calculateRackHeigth() {
+        //RackHeigth
+        let countDevices = amountPoeSwitch +
+            amountNormalSwitch +
+            amountPoePatchPanel +
+            amountNormalPatchPanel;
+        (floor.rack ?? []).forEach(rack => {
+            //CableOrganizer
+            countDevices += countDevices;
+
+            //ExhaustFan
+            if (rack.hasExhaustFan) {
+                countDevices += 1;
+            }
+
+            //Tray
+            if (rack.hasTray) {
+                countDevices += 1;
+            }
+        });
+        if(countDevices * settings.restForGrowth > 20){
+            rackHeight = Math.ceil((countDevices * settings.restForGrowth)/2)*2;
+        } else{
+            rackHeight = Math.ceil((countDevices * settings.restForGrowth)/4)*4;
+        }
+    }
 }

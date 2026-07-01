@@ -5,4 +5,5 @@ export interface Rack{
     hasClosingBar?: boolean;
     hasTray?: boolean;
     hasExhaustFan?: boolean;
+    hasRouter?: boolean;
 }

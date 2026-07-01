@@ -48,6 +48,12 @@ export function RackSection({
                     onChange={(e) => handleTemp(floorIndex, "rack", { hasExhaustFan: (e.target.checked) })} />
                 <br />
 
+                Terá roteador?
+                <input type="checkbox"
+                    onChange={(e) => handleTemp(floorIndex, "rack", {hasRouter: (e.target.checked)})}
+                />
+                <br/>
+
                 {floorIndex > 0 && (
                     <>
                         Digite a distância do rack principal:
