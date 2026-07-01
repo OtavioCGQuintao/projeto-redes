@@ -8,9 +8,8 @@ interface CalculatorProps {
 }
 
 export function Calculator({ settings, floor }: CalculatorProps) {
-    //RJ45Conecctors
+    //FemaleRJ45Connector
     let amountFemaleRJ45Connector = 0;
-    let amountMaleRJ45Connector = 0;
 
     //OutletCoverPlate (only 2x2 with 2 ports)
     let amountOutletCoverPlate = 0;
@@ -167,16 +166,7 @@ export function Calculator({ settings, floor }: CalculatorProps) {
             blueCableDeviceCount +
             redCableDeviceCount +
             yellowCableDeviceCount;
-        amountFemaleRJ45Connector = cableCount * 4;
-    }
-
-    function calculateAmountMaleRJ45Connector() {
-        //MaleRJ45
-        const cableCount =
-            blueCableDeviceCount +
-            redCableDeviceCount +
-            yellowCableDeviceCount;
-        amountMaleRJ45Connector = cableCount * 5;
+        amountFemaleRJ45Connector = cableCount * 2;
     }
 
     function calculateOutletCoverPlate() {
