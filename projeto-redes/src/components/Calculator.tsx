@@ -8,6 +8,18 @@ interface CalculatorProps {
 }
 
 export function Calculator({ settings, floor }: CalculatorProps) {
+    //CableCatogory
+    const cableCategories = [
+    { name: "Cat5e", speed: 1, maxDistance: 100 },
+    { name: "Cat6", speed: 10, maxDistance: 55 },
+    { name: "Cat6A", speed: 10, maxDistance: 100 },
+    { name: "Cat7", speed: 10, maxDistance: 100 },
+    { name: "Cat8", speed: 40, maxDistance: 30 },
+    ];
+
+    //CableChosen
+    let cableChosen;
+
     //Tags
     let amountHorizontalCablingTag = 0;
     let amountOutletCoverPlateAndPowerOutletTag = 0;
@@ -151,12 +163,20 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         amountNormalPatchPanel = amountNormalSwitch;
     }
 
+    function calculateCableChosen(){
+        //CableChosen
+        cableChosen = cableCategories.find(cable =>
+            cable.maxDistance > settings.horizontalCablingLengthMeters &&
+            cable.speed >= settings.expectedUserSpeedGbps
+        )?.name
+    }
+
     function calculateHorizontalCablesLength() {
         //HorizontalCabling
         horizontalCablingLength =
             (blueCableDeviceCount +
-                redCableDeviceCount +
-                yellowCableDeviceCount) * settings.horizontalCablingLengthMeters;
+            redCableDeviceCount +
+            yellowCableDeviceCount) * settings.horizontalCablingLengthMeters;
     }
 
     function calculatePatchCordCablesLength() {
