@@ -5,7 +5,7 @@ import { CameraSection } from "./floorSections/CameraSection";
 import { PhoneSection } from "./floorSections/PhoneSection";
 import { AccessPointSection } from "./floorSections/AccessPointSection";
 import { AccessControllerSection } from "./floorSections/AccessControllerSection";
-import { DistanceToMainRackSection } from "./floorSections/DistanceToMainRackSection";
+import { RackSection } from "./floorSections/RackSection";
 
 export function FloorEditor({
     floor,
@@ -70,14 +70,14 @@ export function FloorEditor({
                         handleAdd={handleAdd}>
                     </AccessControllerSection>
 
-                    <DistanceToMainRackSection
+                    <RackSection
                         floor={floor}
                         settings={settings}
                         floorIndex={floorIndex}
                         temp={temp}
                         handleTemp={handleTemp}
                         handleAdd={handleAdd}>
-                    </DistanceToMainRackSection>
+                    </RackSection>
 
                 </label>
             </div>

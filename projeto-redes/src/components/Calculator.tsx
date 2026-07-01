@@ -178,4 +178,6 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         amountOutletCoverPlate = cableCount;
     }
 
+    
+
 }
