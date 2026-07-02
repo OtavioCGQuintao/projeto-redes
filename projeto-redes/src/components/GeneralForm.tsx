@@ -16,28 +16,10 @@ export function GeneralForm({
       Qual será a folga para crescimento? (%)
       <input
         type="number"
-        min="1"
-        value={settings.restForGrowth}
         onChange={(e) =>
           onSettingsChange((prev: ProjectSettings) => ({
             ...prev,
-            restForGrowth: Number(e.target.value),
-          }))
-        }
-      />
-
-      <br />
-      <br />
-
-      Qual a quantidade total de computadores?
-      <input
-        type="number"
-        min="1"
-        value={settings.amountOfComputers}
-        onChange={(e) =>
-          onSettingsChange((prev: ProjectSettings) => ({
-            ...prev,
-            amountOfComputers: Number(e.target.value),
+            restForGrowth: (Number(e.target.value)/100)+1,
           }))
         }
       />

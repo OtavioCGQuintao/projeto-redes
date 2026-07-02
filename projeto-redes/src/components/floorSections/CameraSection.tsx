@@ -48,13 +48,14 @@ export function CameraSection({
           }
         >
           <option value="">Selecione</option>
-          <option value="ip_sem_poe">IP sem PoE</option>
-          <option value="ip_com_poe">IP com PoE</option>
+          <option value="ip_without_poe">IP sem PoE</option>
+          <option value="ip_with_poe">IP com PoE</option>
+          <option value="dvr">DVR</option>
         </select>
 
         <br />
 
-        {temp.cameras[floorIndex]?.technologyCameras === "ip_com_poe" && (
+        {temp.cameras[floorIndex]?.technologyCameras === "ip_with_poe" && (
           <label>
             Qual o consumo total das câmeras? (Watts)
             <input

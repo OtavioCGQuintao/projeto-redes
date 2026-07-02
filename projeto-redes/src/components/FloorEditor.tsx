@@ -6,6 +6,7 @@ import { PhoneSection } from "./floorSections/PhoneSection";
 import { AccessPointSection } from "./floorSections/AccessPointSection";
 import { AccessControllerSection } from "./floorSections/AccessControllerSection";
 import { RackSection } from "./floorSections/RackSection";
+import { Calculator } from "./Calculator";
 
 export function FloorEditor({
     floor,
@@ -78,7 +79,8 @@ export function FloorEditor({
                         handleTemp={handleTemp}
                         handleAdd={handleAdd}>
                     </RackSection>
-
+                    <Calculator settings={settings} floor={floor}>
+                    </Calculator>
                 </label>
             </div>
         </>

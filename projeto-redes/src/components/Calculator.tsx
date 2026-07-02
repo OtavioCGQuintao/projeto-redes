@@ -1,5 +1,6 @@
 import type { ProjectSettings } from "../interfaces/project/ProjectSenttings";
 import type { Floor } from "../interfaces/Floor";
+import { useState } from "react";
 
 
 interface CalculatorProps {
@@ -63,6 +64,9 @@ export function Calculator({ settings, floor }: CalculatorProps) {
     //PowerStrip
     let powerStripPorts = 0;
 
+    //Exhaustor
+    let amountExhaustFan = 0;
+
     //FemaleRJ45Connector
     let amountFemaleRJ45Connector = 0;
 
@@ -81,6 +85,9 @@ export function Calculator({ settings, floor }: CalculatorProps) {
     //PlasticCableTie
     let amountPlasticCableTie = 0;
 
+    //Tray
+    let amountTray = 0;
+
     //Cables
     let blueCableDeviceCount = 0;
     let redCableDeviceCount = 0;
@@ -96,7 +103,7 @@ export function Calculator({ settings, floor }: CalculatorProps) {
 
     //PatchCord
     let patchCordBlueCableLength = 0;
-    let patchCordRedCableLength = 0;
+    let patchCordWhiteCableLength = 0;
     let patchCordYellowCableLength = 0;
 
     //PatchCable
@@ -114,6 +121,9 @@ export function Calculator({ settings, floor }: CalculatorProps) {
     //PatchPanels
     let amountPoePatchPanel = 0;
     let amountNormalPatchPanel = 0;
+
+    //DVR
+    let amountDVR = 0;
 
     //AccessController
     let poeDoorsAccessController = 0;
@@ -138,7 +148,26 @@ export function Calculator({ settings, floor }: CalculatorProps) {
     //Computer
     let networkDoorsComputer = 0;
 
-    function countPortsAndCables() {
+    function countPortsAndCablesAndDVR() {
+        poeDoorsAccessController = 0;
+        poeDoorsAccessPoint = 0;
+        poeDoorsCamera = 0;
+        poeDoorsPhone = 0;
+
+        networkDoorsAccessController = 0;
+        networkDoorsAccessPoint = 0;
+        networkDoorsCamera = 0;
+        networkDoorsComputer = 0;
+        networkDoorsPhone = 0;
+
+        poeEnergyAccessController = 0;
+        poeEnergyAccessPoint = 0;
+        poeEnergyCamera = 0;
+        poeEnergyPhone = 0;
+
+        blueCableDeviceCount = 0;
+        redCableDeviceCount = 0;
+        yellowCableDeviceCount = 0;
         //AccessController
         (floor.accessControllers ?? []).forEach((accessController) => {
             if (accessController.isAcessControllersPoE) {
@@ -161,9 +190,11 @@ export function Calculator({ settings, floor }: CalculatorProps) {
 
         //Camera
         (floor.cameras ?? []).forEach((camera) => {
-            if (camera.technologyCameras === "ip_com_poe") {
+            if (camera.technologyCameras === "ip_with_poe") {
                 poeDoorsCamera += camera.cameras ?? 0
                 poeEnergyCamera += camera.energyCameras ?? 0
+            } if(camera.technologyCameras === "dvr"){
+                amountDVR += Math.ceil((camera.cameras ?? 0)/32);
             }
             networkDoorsCamera += camera.cameras ?? 0
             redCableDeviceCount += camera.cameras ?? 0
@@ -221,13 +252,13 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         horizontalCablingLength =
             (blueCableDeviceCount +
                 redCableDeviceCount +
-                yellowCableDeviceCount) * settings.horizontalCablingLengthMeters;
+                yellowCableDeviceCount) * settings.horizontalCablingLengthMeters * 2;
     }
 
     function calculatePatchCordCablesLength() {
         //PatchCordCabling
         patchCordBlueCableLength = blueCableDeviceCount * settings.patchCordLengthMeters;
-        patchCordRedCableLength = redCableDeviceCount * settings.patchCordLengthMeters;
+        patchCordWhiteCableLength = redCableDeviceCount * settings.patchCordLengthMeters;
         patchCordYellowCableLength = yellowCableDeviceCount * settings.patchCordLengthMeters;
     }
 
@@ -282,6 +313,7 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         (floor.rack ?? []).forEach(rack => {
             if (rack.hasExhaustFan) {
                 countDevices += 1;
+                amountExhaustFan = 1;
             }
             if (rack.hasRouter) {
                 countDevices += 1;
@@ -307,6 +339,7 @@ export function Calculator({ settings, floor }: CalculatorProps) {
 
             //Tray
             if (rack.hasTray) {
+                amountTray = 1;
                 countDevices += 4;
             }
         });
@@ -333,7 +366,7 @@ export function Calculator({ settings, floor }: CalculatorProps) {
             blueCableDeviceCount +
             redCableDeviceCount +
             yellowCableDeviceCount;
-        amountPlasticCableTie = Math.ceil(amountPlasticCableTie / 100);
+        amountPlasticCableTie = Math.ceil(totalCablingHorizontal / 100);
     }
 
     function calculateClosingBar() {
@@ -378,4 +411,302 @@ export function Calculator({ settings, floor }: CalculatorProps) {
             fiber.maxDistance >= maxDistance
         )?.type;
     }
+
+    const [calculate, setCalculate] = useState(false)
+
+    countPortsAndCablesAndDVR();
+    calculateSwitchAndPatchPanel();
+    calculateCableChosen();
+    calculateHorizontalCablesLength();
+    calculatePatchCordCablesLength();
+    calculatePatchCableCablesLength();
+    calculateAmountFemaleRJ45Connector();
+    calculateOutletCoverPlate();
+    calculateTags();
+    calculatePowerStrip();
+    calculateRackHeigth();
+    calculateCageNut();
+    calculateVelcroCableTie();
+    calculatePlasticCableTie();
+    calculateClosingBar();
+    calculateFiberOptics();
+
+    let indexItemA = 1;
+    let indexItemB = 1;
+    let indexItemC = 1;
+    let indexItemD = 1;
+
+    return calculate ? (
+        <tbody>
+            <tr>
+                <td colSpan={4}><b>1. ÁREA DE TRABALHO</b></td>
+            </tr>
+
+            {amountFemaleRJ45Connector > 0 && (
+                <tr>
+                    <td>a.{indexItemA++}</td>
+                    <td>Tomada RJ45 Fêmea {cableChosen}</td>
+                    <td>unid</td>
+                    <td>{amountFemaleRJ45Connector}</td>
+                </tr>
+
+            )}
+
+            {amountOutletCoverPlate > 0 && (
+                <tr>
+                    <td>a.{indexItemA++}</td>
+                    <td>Espelho 4x4 - 2 estradas/furações</td>
+                    <td>unid</td>
+                    <td>{amountOutletCoverPlate}</td>
+                </tr>
+            )}
+
+            {blueCableDeviceCount > 0 && (
+                <tr>
+                    <td>a.{indexItemA++}</td>
+                    <td>Patch Cord {cableChosen} azul, {settings.patchCordLengthMeters}m </td>
+                    <td>unid</td>
+                    <td>{blueCableDeviceCount}</td>
+                </tr>
+            )}
+
+            {redCableDeviceCount > 0 && (
+                <tr>
+                    <td>a.{indexItemA++}</td>
+                    <td>Patch Cord {cableChosen} branco, {settings.patchCableLengthMeters}m </td>
+                    <td>unid</td>
+                    <td>{redCableDeviceCount}</td>
+                </tr>
+            )}
+
+            {yellowCableDeviceCount > 0 && (
+                <tr>
+                    <td>a.{indexItemA++}</td>
+                    <td>Patch Cord {cableChosen} amarelo, {settings.patchCableLengthMeters}m </td>
+                    <td>unid</td>
+                    <td>{yellowCableDeviceCount}</td>
+                </tr>
+            )}
+
+            <tr>
+                <td colSpan={4}><b>2. CABEAMENTO HORIZONTAL</b></td>
+            </tr>
+
+            {horizontalCablingLength > 0 && (
+                <tr>
+                    <td>b.{indexItemB++}</td>
+                    <td>Cabo UTP par trançado {cableChosen}  (MH)</td>
+                    <td>cxs</td>
+                    <td>{Math.ceil(horizontalCablingLength/305)}</td>
+                </tr>
+            )}
+
+            <tr>
+                <td colSpan={4}><b>3. SALA DE EQUIPAMENTOS / TELECOM (SEQ/SET)</b></td>
+            </tr>
+
+            {(amountNormalPatchPanel + amountPoePatchPanel) > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>Patch Panel (cableChosen), 24 portas (PPMH - Patch de malha horizontal)</td>
+                    <td>unid</td>
+                    <td>{amountNormalPatchPanel + amountPoePatchPanel}</td>
+                </tr>
+            )}
+
+            {(amountNormalSwitch + amountPoeSwitch) > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>Switch (cableChosen), 24 portas</td>
+                    <td>unid</td>
+                    <td>{amountNormalSwitch + amountPoeSwitch}</td>
+                </tr>
+            )}
+
+            {(amountDVR) > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>DVR 32 portas</td>
+                    <td>unid</td>
+                    <td>{amountDVR}</td>
+                </tr>
+            )}
+
+            {rackHeight > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    {(floor.rack ?? []).map((rack, index) => (
+                        <span key={index}>
+                            Rack {rack.closed ? "Fechado" : "Aberto"}, largura de 19" e tamanho de {rackHeight}U
+                        </span>
+                    ))}
+                    <td>unid</td>
+                    <td>1</td>
+                </tr>
+            )}
+
+            {(blueCableDeviceCount + redCableDeviceCount + yellowCableDeviceCount) > 0 && 
+            (Number((floor.rack ?? []).map((rack) => rack.distanceToMainRack)) > 0) &&(
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>Fibra Óptica {fiberOpticsChosen}</td>
+                    <td>m</td>
+                    <td>
+                        {Math.max(
+                            ...(floor.rack ?? []).map(r => r.distanceToMainRack || 0)
+                        )}
+                    </td>
+                </tr>
+            )}
+
+            {blueCableDeviceCount > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>Patch Cable (cableChosen) azul, {settings.patchCableLengthMeters}</td>
+                    <td>unid</td>
+                    <td>{blueCableDeviceCount}</td>
+                </tr>
+            )}
+
+            {redCableDeviceCount > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>Patch Cable (cableChosen) vermelho, {settings.patchCableLengthMeters}</td>
+                    <td>unid</td>
+                    <td>{redCableDeviceCount}</td>
+                </tr>
+            )}
+
+            {yellowCableDeviceCount > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>Patch Cable (cableChosen) amarelo, {settings.patchCableLengthMeters}</td>
+                    <td>unid</td>
+                    <td>{yellowCableDeviceCount}</td>
+                </tr>
+            )}
+
+            {(amountTray) > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>Bandeja fixa</td>
+                    <td>unid</td>
+                    <td>{amountTray}</td>
+                </tr>
+            )}
+
+            {(amountExhaustFan) > 0 && (
+                <tr>
+                    <td>c.{indexItemC++}</td>
+                    <td>Exaustor 19"</td>
+                    <td>unid</td>
+                    <td>{amountExhaustFan}</td>
+                </tr>
+            )}
+
+            <tr>
+                <td colSpan={4}><b>4. MISCELÂNEA</b></td>
+            </tr>
+
+            {amountPatchPanelTag > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Etiquetas Patch Panel</td>
+                    <td>unid</td>
+                    <td>{amountPatchPanelTag}</td>
+                </tr>
+            )}
+
+            {amountPatchPanelPortsTag > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Etiquetas Portas Patch Panel</td>
+                    <td>unid</td>
+                    <td>{amountPatchPanelPortsTag}</td>
+                </tr>
+            )}
+
+            {amountPatchCableTag > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Etiquetas Patch Cable</td>
+                    <td>unid</td>
+                    <td>{amountPatchCableTag}</td>
+                </tr>
+            )}
+
+            {amountOutletCoverPlateAndPowerOutletTag > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Etiquetas Tomadas</td>
+                    <td>unid</td>
+                    <td>{amountOutletCoverPlateAndPowerOutletTag}</td>
+                </tr>
+            )}
+
+            {amountHorizontalCablingTag > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Etiquetas de identificação Cabos UTP - MH</td>
+                    <td>unid</td>
+                    <td>{amountHorizontalCablingTag}</td>
+                </tr>
+            )}
+
+            {amountPlasticCableTie > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Abraçadeira plástica, pacote 100 unidades</td>
+                    <td>pct</td>
+                    <td>{Math.ceil(amountPlasticCableTie/100)}</td>
+                </tr>
+            )}
+
+            {amountVelcroCableTie > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Abraçadeira velcro, rolo 3m</td>
+                    <td>rolo</td>
+                    <td>{amountVelcroCableTie}</td>
+                </tr>
+            )}
+
+            {powerStripPorts > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Régua com {powerStripPorts} tomadas - filtro de linha</td>
+                    <td>unid</td>
+                    <td>1</td>
+                </tr>
+            )}
+
+            {amountClosingBar > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Régua de fechamento - 1U</td>
+                    <td>unid</td>
+                    <td>{amountClosingBar}</td>
+                </tr>
+            )}
+
+            {amountCageNut > 0 && (
+                <tr>
+                    <td>d.{indexItemD++}</td>
+                    <td>Porca gaiola pacotes 10 unidades</td>
+                    <td>pct</td>
+                    <td>{Math.ceil(amountCageNut / 10)}</td>
+                </tr>
+
+            )}
+        </tbody>
+    ) : (<>
+        <label>
+            <br />
+            Certifique-se de que todos os dados do andar estão corretos!
+            <br />
+            <button onClick={() => setCalculate(true)}>
+                {calculate ? "Calculado" : "Calcular!"}
+            </button>
+        </label>
+    </>);
 }

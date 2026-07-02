@@ -13,8 +13,7 @@ function Builder() {
   const [andares, setAndares] = useState<Floor[]>([]);
 
   const [projectSettings, setProjectSettings] = useState<ProjectSettings>({
-    restForGrowth: 50,
-    amountOfComputers: 1,
+    restForGrowth: 0,
     expectedUserSpeedGbps: 10,
     horizontalCablingLengthMeters: 25,
     patchCordLengthMeters: 3,
