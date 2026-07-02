@@ -36,6 +36,18 @@ export function Calculator({ settings, floor }: CalculatorProps) {
     //OutletCoverPlate (only 2x2 with 2 ports)
     let amountOutletCoverPlate = 0;
 
+    //CageNut
+    let amountCageNut = 0;
+
+    //ClosingBar
+    let amountClosingBar = 0;
+
+    //VelcroCableTie
+    let amountVelcroCableTie = 0;
+
+    //PlasticCableTie
+    let amountPlasticCableTie = 0;
+
     //Cables
     let blueCableDeviceCount = 0;
     let redCableDeviceCount = 0;
@@ -253,7 +265,7 @@ export function Calculator({ settings, floor }: CalculatorProps) {
             amountNormalPatchPanel;
         (floor.rack ?? []).forEach(rack => {
             //CableOrganizer
-            countDevices += countDevices;
+            countDevices += amountPoePatchPanel + amountNormalPatchPanel;
 
             //ExhaustFan
             if (rack.hasExhaustFan) {
@@ -262,13 +274,54 @@ export function Calculator({ settings, floor }: CalculatorProps) {
 
             //Tray
             if (rack.hasTray) {
-                countDevices += 1;
+                countDevices += 4;
             }
         });
-        if(countDevices * settings.restForGrowth > 20){
+        if(countDevices * settings.restForGrowth < 20){
             rackHeight = Math.ceil((countDevices * settings.restForGrowth)/2)*2;
         } else{
             rackHeight = Math.ceil((countDevices * settings.restForGrowth)/4)*4;
         }
+    }
+
+    function calculateCageNut(){
+        //CageNut
+        amountCageNut = rackHeight * 4;
+    }
+
+    function calculateVelcroCableTie(){
+        //VelcroCableTie
+        amountVelcroCableTie = 1;
+    }
+
+    function calculatePlasticCableTie(){
+        //PlasticCableTie
+        const totalCablingHorizontal = 
+            blueCableDeviceCount +
+            redCableDeviceCount +
+            yellowCableDeviceCount;
+        amountPlasticCableTie = Math.ceil(amountPlasticCableTie / 100);
+    }
+
+    function calculateClosingBar(){
+        //ClosingBar
+        let countDevices = amountPoeSwitch +
+            amountNormalSwitch +
+            amountPoePatchPanel +
+            amountNormalPatchPanel;
+        (floor.rack ?? []).forEach(rack => {
+            //CableOrganizer
+            countDevices += amountPoePatchPanel + amountNormalPatchPanel;
+            //ExhaustFan
+            if (rack.hasExhaustFan) {
+                countDevices += 1;
+            }
+
+            //Tray
+            if (rack.hasTray) {
+                countDevices += 4;
+            }
+        });
+        amountClosingBar = rackHeight - countDevices;
     }
 }
