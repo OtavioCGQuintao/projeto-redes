@@ -38,6 +38,9 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         { type: "OS2 100G ER4", mode: "singlemode", maxSpeedGbps: 100, maxDistance: 40000 },
     ];
 
+    //FiberOpticsChosen
+    let fiberOpticsChosen;
+
     //CableCatogory
     const cableCategories = [
         { name: "Cat5e", speed: 1, maxDistance: 100 },
@@ -370,9 +373,9 @@ export function Calculator({ settings, floor }: CalculatorProps) {
             0.3 *
             countDevices;
 
-        return fiberCategories.find(fiber =>
+        fiberOpticsChosen = fiberCategories.find(fiber =>
             fiber.maxSpeedGbps >= realThroughput &&
             fiber.maxDistance >= maxDistance
-        );
+        )?.type;
     }
 }
