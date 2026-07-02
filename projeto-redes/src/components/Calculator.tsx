@@ -8,13 +8,43 @@ interface CalculatorProps {
 }
 
 export function Calculator({ settings, floor }: CalculatorProps) {
+    //FiberCategory
+    const fiberCategories = [
+        { type: "OM1 1G SX", mode: "multimode", maxSpeedGbps: 1, maxDistance: 275 },
+        { type: "OM1 1G LX", mode: "multimode", maxSpeedGbps: 1, maxDistance: 550 },
+
+        { type: "OM2 1G SX", mode: "multimode", maxSpeedGbps: 1, maxDistance: 550 },
+        { type: "OM2 1G LX", mode: "multimode", maxSpeedGbps: 1, maxDistance: 550 },
+
+        { type: "OM3 10G SR", mode: "multimode", maxSpeedGbps: 10, maxDistance: 300 },
+        { type: "OM3 25G SR", mode: "multimode", maxSpeedGbps: 25, maxDistance: 70 },
+        { type: "OM3 40G SR4", mode: "multimode", maxSpeedGbps: 40, maxDistance: 100 },
+        { type: "OM3 100G SR4", mode: "multimode", maxSpeedGbps: 100, maxDistance: 100 },
+
+        { type: "OM4 10G SR", mode: "multimode", maxSpeedGbps: 10, maxDistance: 550 },
+        { type: "OM4 25G SR", mode: "multimode", maxSpeedGbps: 25, maxDistance: 100 },
+        { type: "OM4 40G SR4", mode: "multimode", maxSpeedGbps: 40, maxDistance: 150 },
+        { type: "OM4 100G SR4", mode: "multimode", maxSpeedGbps: 100, maxDistance: 150 },
+
+        { type: "OM5 40G SWDM4", mode: "multimode", maxSpeedGbps: 40, maxDistance: 150 },
+        { type: "OM5 100G SWDM4", mode: "multimode", maxSpeedGbps: 100, maxDistance: 150 },
+
+        { type: "OS1 10G LX", mode: "singlemode", maxSpeedGbps: 10, maxDistance: 2000 },
+        { type: "OS1 10G ZR", mode: "singlemode", maxSpeedGbps: 10, maxDistance: 2000 },
+
+        { type: "OS2 10G LR", mode: "singlemode", maxSpeedGbps: 10, maxDistance: 10000 },
+        { type: "OS2 100G LR4", mode: "singlemode", maxSpeedGbps: 100, maxDistance: 10000 },
+        { type: "OS2 10G ZR", mode: "singlemode", maxSpeedGbps: 10, maxDistance: 80000 },
+        { type: "OS2 100G ER4", mode: "singlemode", maxSpeedGbps: 100, maxDistance: 40000 },
+    ];
+
     //CableCatogory
     const cableCategories = [
-    { name: "Cat5e", speed: 1, maxDistance: 100 },
-    { name: "Cat6", speed: 10, maxDistance: 55 },
-    { name: "Cat6A", speed: 10, maxDistance: 100 },
-    { name: "Cat7", speed: 10, maxDistance: 100 },
-    { name: "Cat8", speed: 40, maxDistance: 30 },
+        { name: "Cat5e", speed: 1, maxDistance: 100 },
+        { name: "Cat6", speed: 10, maxDistance: 55 },
+        { name: "Cat6A", speed: 10, maxDistance: 100 },
+        { name: "Cat7", speed: 10, maxDistance: 100 },
+        { name: "Cat8", speed: 40, maxDistance: 30 },
     ];
 
     //CableChosen
@@ -175,7 +205,7 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         amountNormalPatchPanel = amountNormalSwitch;
     }
 
-    function calculateCableChosen(){
+    function calculateCableChosen() {
         //CableChosen
         cableChosen = cableCategories.find(cable =>
             cable.maxDistance > settings.horizontalCablingLengthMeters &&
@@ -187,8 +217,8 @@ export function Calculator({ settings, floor }: CalculatorProps) {
         //HorizontalCabling
         horizontalCablingLength =
             (blueCableDeviceCount +
-            redCableDeviceCount +
-            yellowCableDeviceCount) * settings.horizontalCablingLengthMeters;
+                redCableDeviceCount +
+                yellowCableDeviceCount) * settings.horizontalCablingLengthMeters;
     }
 
     function calculatePatchCordCablesLength() {
@@ -277,33 +307,33 @@ export function Calculator({ settings, floor }: CalculatorProps) {
                 countDevices += 4;
             }
         });
-        if(countDevices * settings.restForGrowth < 20){
-            rackHeight = Math.ceil((countDevices * settings.restForGrowth)/2)*2;
-        } else{
-            rackHeight = Math.ceil((countDevices * settings.restForGrowth)/4)*4;
+        if (countDevices * settings.restForGrowth < 20) {
+            rackHeight = Math.ceil((countDevices * settings.restForGrowth) / 2) * 2;
+        } else {
+            rackHeight = Math.ceil((countDevices * settings.restForGrowth) / 4) * 4;
         }
     }
 
-    function calculateCageNut(){
+    function calculateCageNut() {
         //CageNut
         amountCageNut = rackHeight * 4;
     }
 
-    function calculateVelcroCableTie(){
+    function calculateVelcroCableTie() {
         //VelcroCableTie
         amountVelcroCableTie = 1;
     }
 
-    function calculatePlasticCableTie(){
+    function calculatePlasticCableTie() {
         //PlasticCableTie
-        const totalCablingHorizontal = 
+        const totalCablingHorizontal =
             blueCableDeviceCount +
             redCableDeviceCount +
             yellowCableDeviceCount;
         amountPlasticCableTie = Math.ceil(amountPlasticCableTie / 100);
     }
 
-    function calculateClosingBar(){
+    function calculateClosingBar() {
         //ClosingBar
         let countDevices = amountPoeSwitch +
             amountNormalSwitch +
@@ -323,5 +353,26 @@ export function Calculator({ settings, floor }: CalculatorProps) {
             }
         });
         amountClosingBar = rackHeight - countDevices;
+    }
+
+    function calculateFiberOptics() {
+        const countDevices =
+            blueCableDeviceCount +
+            redCableDeviceCount +
+            yellowCableDeviceCount;
+
+        const maxDistance = Math.max(
+            ...(floor.rack ?? []).map(r => r.distanceToMainRack || 0)
+        );
+
+        const realThroughput =
+            settings.expectedUserSpeedGbps *
+            0.3 *
+            countDevices;
+
+        return fiberCategories.find(fiber =>
+            fiber.maxSpeedGbps >= realThroughput &&
+            fiber.maxDistance >= maxDistance
+        );
     }
 }
